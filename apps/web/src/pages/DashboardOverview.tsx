@@ -3,7 +3,7 @@ import { apiRequest } from '../lib/api';
 import { DashboardMetrics, Call } from '@ai-receptionist/shared';
 import {
   PhoneCall, Users, CalendarCheck, TrendingUp, Sparkles, UserX, DollarSign,
-  ArrowUpRight, Clock, ShieldCheck, CheckCircle2, ChevronRight
+  ArrowUpRight, Clock, ShieldCheck, CheckCircle2, ChevronRight, Cpu
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -37,55 +37,63 @@ export const DashboardOverview: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-[#140206] border-t-[#1bd944] rounded-full animate-spin"></div>
       </div>
     );
   }
 
   const statCards = [
-    { label: 'Total Calls', val: metrics?.total_calls ?? 0, icon: PhoneCall, change: '+18%', color: 'from-blue-500/20 to-indigo-500/20 text-blue-400' },
-    { label: "Today's Calls", val: metrics?.today_calls ?? 0, icon: Clock, change: '+5', color: 'from-sky-500/20 to-blue-500/20 text-sky-400' },
-    { label: 'New Leads', val: metrics?.new_leads ?? 0, icon: Users, change: '+12%', color: 'from-emerald-500/20 to-teal-500/20 text-emerald-400' },
-    { label: 'Appointments Booked', val: metrics?.appointments_count ?? 0, icon: CalendarCheck, change: '+24%', color: 'from-violet-500/20 to-purple-500/20 text-violet-400' },
-    { label: 'AI Resolution Rate', val: `${metrics?.ai_resolution_rate ?? 95}%`, icon: Sparkles, change: '+2.1%', color: 'from-amber-500/20 to-orange-500/20 text-amber-400' },
-    { label: 'Call-to-Lead Conversion', val: `${metrics?.conversion_rate ?? 48}%`, icon: TrendingUp, change: '+6.4%', color: 'from-teal-500/20 to-cyan-500/20 text-teal-400' },
-    { label: 'Human Transfers', val: metrics?.human_transfers ?? 0, icon: UserX, change: 'Low (6%)', color: 'from-rose-500/20 to-red-500/20 text-rose-400' },
-    { label: 'Est. Booked Revenue', val: `$${((metrics?.estimated_revenue_cents ?? 0) / 100).toLocaleString()}`, icon: DollarSign, change: '+31%', color: 'from-emerald-500/20 to-green-500/20 text-emerald-400' }
+    { label: 'Total Calls', val: metrics?.total_calls ?? 0, icon: PhoneCall, change: '+18%', bg: 'bg-[#ffffff]', accent: '#1bd944' },
+    { label: "Today's Calls", val: metrics?.today_calls ?? 0, icon: Clock, change: '+5', bg: 'bg-[#ffffff]', accent: '#cbe7ff' },
+    { label: 'New Leads', val: metrics?.new_leads ?? 0, icon: Users, change: '+12%', bg: 'bg-[#ffffff]', accent: '#ffb4c5' },
+    { label: 'Appointments Booked', val: metrics?.appointments_count ?? 0, icon: CalendarCheck, change: '+24%', bg: 'bg-[#ffffff]', accent: '#fed7ff' },
+    { label: 'AI Resolution Rate', val: `${metrics?.ai_resolution_rate ?? 95}%`, icon: Sparkles, change: '+2.1%', bg: 'bg-[#ffffff]', accent: '#ffda95' },
+    { label: 'Call-to-Lead Ratio', val: `${metrics?.conversion_rate ?? 48}%`, icon: TrendingUp, change: '+6.4%', bg: 'bg-[#ffffff]', accent: '#ade2d8' },
+    { label: 'Human Transfers', val: metrics?.human_transfers ?? 0, icon: UserX, change: 'Low (6%)', bg: 'bg-[#ffffff]', accent: '#ff6183' },
+    { label: 'Est. Booked Revenue', val: `$${((metrics?.estimated_revenue_cents ?? 0) / 100).toLocaleString()}`, icon: DollarSign, change: '+31%', bg: 'bg-[#ffffff]', accent: '#1bd944' }
   ];
 
   return (
     <div className="space-y-8">
       {/* Page Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-[#140206] pb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Operations Dashboard</h1>
-          <p className="text-sm text-slate-400 mt-1">Live metrics, call performance, and automated bookings</p>
+          <span className="text-xs font-mono uppercase tracking-widest text-[#856f58] font-bold block mb-1">
+            CONTROL PLANE // TELEMETRY
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#140206]">
+            Operations & Voice Telemetry
+          </h1>
+          <p className="text-xs font-mono text-[#5e5850] mt-1">Live metrics, call performance, and automated bookings</p>
         </div>
         <div className="flex items-center gap-3">
           <Link
             to="/dashboard/voice-studio"
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-brand-500/25 transition"
+            className="px-5 py-2.5 bg-[#1bd944] hover:bg-[#3bdb5d] text-[#140206] rounded-full text-xs font-mono uppercase tracking-wider font-extrabold border-2 border-[#140206] shadow-brutal transition flex items-center gap-2"
           >
-            <Sparkles className="w-4 h-4" />
-            Launch AI Voice Studio
+            <Sparkles className="w-3.5 h-3.5" />
+            Launch 3D Voice Studio
           </Link>
         </div>
       </div>
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {statCards.map((card, idx) => (
-          <div key={idx} className="bg-slate-900 border border-slate-800 p-5 rounded-xl hover:border-slate-700 transition">
+          <div key={idx} className="bg-white border-2 border-[#140206] p-5 rounded-2xl shadow-brutal hover:shadow-brutal-lg transition">
             <div className="flex items-center justify-between">
-              <div className="text-xs font-medium text-slate-400">{card.label}</div>
-              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${card.color} flex items-center justify-center`}>
+              <div className="text-[11px] font-mono uppercase tracking-wider font-bold text-[#856f58]">{card.label}</div>
+              <div
+                style={{ backgroundColor: card.accent }}
+                className="w-8 h-8 rounded-full border border-[#140206] flex items-center justify-center text-[#140206] shadow-brutal-sm"
+              >
                 <card.icon className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-4 flex items-baseline justify-between">
-              <div className="text-2xl font-bold text-white tracking-tight">{card.val}</div>
-              <span className="text-xs font-semibold text-emerald-400 flex items-center gap-0.5">
-                <ArrowUpRight className="w-3 h-3" />
+              <div className="font-serif text-3xl font-bold text-[#140206] tracking-tight">{card.val}</div>
+              <span className="text-xs font-mono font-bold text-[#140206] bg-[#eae5de] px-2 py-0.5 rounded-full border border-[#140206] flex items-center gap-0.5">
+                <ArrowUpRight className="w-3 h-3 text-[#1bd944]" />
                 {card.change}
               </span>
             </div>
@@ -93,21 +101,21 @@ export const DashboardOverview: React.FC = () => {
         ))}
       </div>
 
-      {/* Visual Analytics / Charts Section */}
+      {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Weekly Call Activity Bar Visualization */}
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <div className="flex items-center justify-between mb-6">
+        <div className="lg:col-span-2 bg-white border-2 border-[#140206] rounded-2xl p-6 shadow-brutal">
+          <div className="flex items-center justify-between mb-6 border-b-2 border-[#140206] pb-4">
             <div>
-              <h2 className="text-base font-semibold text-white">Weekly Call & Booking Volume</h2>
-              <p className="text-xs text-slate-400">Total answered calls vs confirmed appointments</p>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#856f58] font-bold">CALL TRAFFIC</span>
+              <h2 className="font-serif text-2xl font-normal text-[#140206]">Weekly Call & Booking Density</h2>
             </div>
-            <div className="flex items-center gap-4 text-xs">
-              <div className="flex items-center gap-1.5 text-slate-300">
-                <span className="w-2.5 h-2.5 rounded-sm bg-brand-500"></span> Inbound Calls
+            <div className="flex items-center gap-4 text-xs font-mono font-bold">
+              <div className="flex items-center gap-1.5 text-[#140206]">
+                <span className="w-3 h-3 rounded bg-[#140206] border border-[#140206]"></span> Inbound Calls
               </div>
-              <div className="flex items-center gap-1.5 text-slate-300">
-                <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span> Appointments
+              <div className="flex items-center gap-1.5 text-[#140206]">
+                <span className="w-3 h-3 rounded bg-[#1bd944] border border-[#140206]"></span> Appointments
               </div>
             </div>
           </div>
@@ -123,16 +131,16 @@ export const DashboardOverview: React.FC = () => {
                   <div className="w-full flex items-end justify-center gap-1.5 h-36">
                     <div
                       style={{ height: `${callH}%` }}
-                      className="w-1/2 max-w-[20px] bg-brand-500/80 hover:bg-brand-400 rounded-t transition"
+                      className="w-1/2 max-w-[20px] bg-[#140206] border border-[#140206] rounded-t transition"
                       title={`${d.day}: ${d.calls} calls`}
                     ></div>
                     <div
                       style={{ height: `${apptH}%` }}
-                      className="w-1/2 max-w-[20px] bg-emerald-500/80 hover:bg-emerald-400 rounded-t transition"
+                      className="w-1/2 max-w-[20px] bg-[#1bd944] border border-[#140206] rounded-t transition"
                       title={`${d.day}: ${d.appointments} appointments`}
                     ></div>
                   </div>
-                  <span className="text-[11px] text-slate-400 font-medium">{d.day}</span>
+                  <span className="text-[11px] font-mono text-[#140206] font-bold">{d.day}</span>
                 </div>
               );
             })}
@@ -140,22 +148,26 @@ export const DashboardOverview: React.FC = () => {
         </div>
 
         {/* Call Outcomes Distribution */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 flex flex-col justify-between">
+        <div className="bg-white border-2 border-[#140206] rounded-2xl p-6 shadow-brutal flex flex-col justify-between">
           <div>
-            <h2 className="text-base font-semibold text-white">AI Resolution Breakdown</h2>
-            <p className="text-xs text-slate-400">Distribution of caller resolutions</p>
+            <div className="border-b-2 border-[#140206] pb-4 mb-4">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#856f58] font-bold">RESOLUTION SPECTRUM</span>
+              <h2 className="font-serif text-2xl font-normal text-[#140206]">AI Resolution</h2>
+            </div>
 
-            <div className="mt-6 space-y-4">
+            <div className="space-y-4">
               {outcomes.map((item, idx) => (
                 <div key={idx}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-300 font-medium">{item.name}</span>
-                    <span className="text-slate-400 font-semibold">{item.value}%</span>
+                  <div className="flex justify-between text-xs font-mono mb-1">
+                    <span className="text-[#140206] font-bold">{item.name}</span>
+                    <span className="text-[#856f58] font-semibold">{item.value}%</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-[#f3eee7] border border-[#140206] rounded-full overflow-hidden">
                     <div
-                      style={{ width: `${item.value}%`, backgroundColor: item.color }}
-                      className="h-full rounded-full"
+                      style={{ width: `${item.value}%` }}
+                      className={`h-full rounded-full ${
+                        idx === 0 ? 'bg-[#1bd944]' : idx === 1 ? 'bg-[#91d0ff]' : idx === 2 ? 'bg-[#ffda95]' : 'bg-[#ff6183]'
+                      }`}
                     ></div>
                   </div>
                 </div>
@@ -163,76 +175,76 @@ export const DashboardOverview: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-6 p-3 bg-slate-850 border border-slate-800 rounded-lg flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-            <div className="text-xs text-slate-300">
-              Sarah resolved <span className="text-white font-bold">95%</span> of caller inquiries without human staff intervention.
+          <div className="mt-6 p-3 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl flex items-center gap-3 shadow-brutal-sm">
+            <CheckCircle2 className="w-5 h-5 text-[#1bd944] shrink-0" />
+            <div className="text-xs font-sans text-[#140206]">
+              Sarah resolved <strong className="font-mono text-[#140206]">95%</strong> of inquiries with zero human intervention.
             </div>
           </div>
         </div>
       </div>
 
       {/* Recent Inbound Calls Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-        <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+      <div className="bg-white border-2 border-[#140206] rounded-2xl overflow-hidden shadow-brutal">
+        <div className="p-6 border-b-2 border-[#140206] flex items-center justify-between bg-[#f5f3ef]">
           <div>
-            <h2 className="text-base font-semibold text-white">Recent Calls</h2>
-            <p className="text-xs text-slate-400">Latest telephone calls handled by the AI receptionist</p>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#856f58] font-bold">VOICE LOGS</span>
+            <h2 className="font-serif text-2xl font-normal text-[#140206]">Recent Calls</h2>
           </div>
-          <Link to="/dashboard/calls" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
+          <Link to="/dashboard/calls" className="text-xs font-mono uppercase font-bold text-[#140206] hover:text-[#1bd944] flex items-center gap-1">
             View all calls <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-850/60 text-slate-400 text-[11px] uppercase tracking-wider font-semibold border-b border-slate-800">
+          <table className="w-full text-left text-sm font-sans">
+            <thead className="bg-[#fbf8f1] text-[#856f58] text-[11px] font-mono uppercase tracking-wider font-bold border-b-2 border-[#140206]">
               <tr>
                 <th className="px-6 py-3.5">Caller</th>
                 <th className="px-6 py-3.5">Duration</th>
                 <th className="px-6 py-3.5">Outcome</th>
                 <th className="px-6 py-3.5">Sentiment</th>
                 <th className="px-6 py-3.5">Date / Time</th>
-                <th className="px-6 py-3.5 text-right">Action</th>
+                <th className="px-6 py-3.5 text-right">Transcript</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-200">
+            <tbody className="divide-y border-[#140206] text-[#140206]">
               {calls.map((call) => (
-                <tr key={call.id} className="hover:bg-slate-800/30 transition">
+                <tr key={call.id} className="hover:bg-[#f3eee7] transition">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-white">{call.caller_phone}</div>
-                    <div className="text-xs text-slate-400 truncate max-w-xs">{call.summary || 'Caller inquiry'}</div>
+                    <div className="font-bold text-[#140206] font-mono text-xs">{call.caller_phone}</div>
+                    <div className="text-xs text-[#5e5850] truncate max-w-xs">{call.summary || 'Caller inquiry'}</div>
                   </td>
-                  <td className="px-6 py-4 font-mono text-xs text-slate-300">
+                  <td className="px-6 py-4 font-mono text-xs text-[#140206]">
                     {Math.floor(call.duration_seconds / 60)}m {call.duration_seconds % 60}s
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono uppercase font-bold border border-[#140206] ${
                       call.outcome === 'APPOINTMENT_BOOKED'
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                        ? 'bg-[#1bd944] text-[#140206]'
                         : call.was_transferred
-                        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                        : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                        ? 'bg-[#ff6183] text-[#140206]'
+                        : 'bg-[#cbe7ff] text-[#140206]'
                     }`}>
                       {call.outcome?.replace('_', ' ') || 'COMPLETED'}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`text-xs font-medium ${
-                      call.sentiment === 'POSITIVE' ? 'text-emerald-400' : 'text-slate-400'
+                    <span className={`text-xs font-mono font-bold ${
+                      call.sentiment === 'POSITIVE' ? 'text-[#0cb531]' : 'text-[#856f58]'
                     }`}>
                       ● {call.sentiment}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-xs text-slate-400">
+                  <td className="px-6 py-4 text-xs font-mono text-[#5e5850]">
                     {new Date(call.start_time).toLocaleString()}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <Link
                       to="/dashboard/conversations"
-                      className="text-xs text-brand-400 hover:text-brand-300 font-medium underline underline-offset-4"
+                      className="text-xs font-mono font-bold uppercase text-[#140206] hover:text-[#1bd944] underline underline-offset-4"
                     >
-                      Transcript
+                      Dialogue
                     </Link>
                   </td>
                 </tr>

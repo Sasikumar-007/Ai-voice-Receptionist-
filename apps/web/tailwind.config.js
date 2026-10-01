@@ -4,31 +4,40 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#0f172a'
-        },
-        slate: {
-          850: '#151f32',
-          900: '#0f172a',
-          950: '#080d1a'
+        tavus: {
+          bg: '#f3eee7',
+          surface: '#f5f3ef',
+          black: '#140206',
+          border: '#140206',
+          neon: '#1bd944',
+          'neon-dark': '#0cb531',
+          pink: '#ff6183',
+          'pink-light': '#ffb4c5',
+          lilac: '#fed7ff',
+          'lilac-deep': '#fdb3ff',
+          fog: '#d0c9ed',
+          glow: '#fd7f00',
+          amber: '#ffb835',
+          tan: '#d5997d',
+          brown: '#4b2c22',
+          muted: '#856f58'
         }
       },
       fontFamily: {
+        serif: ['Georgia', 'Cambria', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      boxShadow: {
+        'brutal-sm': '2px 2px 0px #140206',
+        'brutal': '4px 4px 0px #140206',
+        'brutal-lg': '6px 6px 0px #140206',
+        'brutal-xl': '8px 8px 0px #140206',
+        'brutal-pink': '4px 4px 0px #ff6183',
+        'brutal-neon': '4px 4px 0px #1bd944'
       }
     },
   },

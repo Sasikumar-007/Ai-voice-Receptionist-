@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiRequest } from '../lib/api';
-import { Appointment, AppointmentStatus } from '@ai-receptionist/shared';
+import { Appointment } from '@ai-receptionist/shared';
 import {
   Calendar as CalendarIcon, Clock, User, Phone, CheckCircle2,
   XCircle, AlertCircle, Plus, CalendarCheck
@@ -57,26 +57,30 @@ export const AppointmentsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-[#140206] pb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <CalendarCheck className="w-6 h-6 text-brand-400" />
+          <span className="text-xs font-mono uppercase tracking-widest text-[#856f58] font-bold block mb-1">
+            SCHEDULE ENGINE // GOOGLE CALENDAR SYNC
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#140206]">
             Appointments & Schedule
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Real-time bookings synchronized with Google Calendar and business hours.
+          <p className="text-xs font-mono text-[#5e5850] mt-1">
+            Real-time conflict-free bookings synchronized with Google Calendar and shop hours.
           </p>
         </div>
       </div>
 
       {/* Real-Time Availability Inspector */}
-      <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-        <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-          <Clock className="w-4 h-4 text-brand-400" />
-          Real-Time Availability Checker
-        </h3>
-        <p className="text-xs text-slate-400 mb-4">
-          Test the real-time slot generation that Sarah consults during incoming calls.
+      <div className="bg-white border-2 border-[#140206] p-6 rounded-3xl shadow-brutal">
+        <div className="flex items-center gap-2 mb-2">
+          <Clock className="w-4 h-4 text-[#ff6183]" />
+          <h3 className="font-serif text-xl font-normal text-[#140206]">
+            Real-Time Slot Engine
+          </h3>
+        </div>
+        <p className="text-xs font-mono text-[#5e5850] mb-4">
+          Test the real-time availability generator that Sarah consults during incoming telephone calls.
         </p>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -87,19 +91,19 @@ export const AppointmentsPage: React.FC = () => {
               setSelectedDate(e.target.value);
               checkAvailabilityForDate(e.target.value);
             }}
-            className="px-3 py-2 bg-slate-850 border border-slate-700 rounded-xl text-xs text-white"
+            className="px-4 py-2 bg-[#fbf8f1] border-2 border-[#140206] rounded-full text-xs font-mono font-bold text-[#140206]"
           />
 
           <div className="flex flex-wrap items-center gap-2">
             {checkingSlots ? (
-              <span className="text-xs text-slate-400">Verifying calendar conflicts...</span>
+              <span className="text-xs font-mono text-[#856f58]">Verifying Google Calendar conflicts...</span>
             ) : availableSlots.length === 0 ? (
-              <span className="text-xs text-rose-400">No open slots available (Shop closed or fully booked).</span>
+              <span className="text-xs font-mono text-[#ff6183] font-bold">No open slots (Shop closed or fully booked).</span>
             ) : (
               availableSlots.map((slot, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-xs font-semibold"
+                  className="px-3.5 py-1.5 bg-[#1bd944] text-[#140206] border-2 border-[#140206] rounded-full text-xs font-mono font-bold shadow-brutal-sm"
                 >
                   {new Date(slot).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
@@ -110,47 +114,49 @@ export const AppointmentsPage: React.FC = () => {
       </div>
 
       {/* Appointments List */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-        <div className="p-5 border-b border-slate-800">
-          <h2 className="text-base font-semibold text-white">Scheduled Service Visits</h2>
-          <p className="text-xs text-slate-400">Upcoming and completed bookings</p>
+      <div className="bg-white border-2 border-[#140206] rounded-3xl overflow-hidden shadow-brutal">
+        <div className="p-6 border-b-2 border-[#140206] bg-[#f5f3ef] flex items-center justify-between">
+          <div>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#856f58] font-bold">RESERVATIONS</span>
+            <h2 className="font-serif text-2xl font-normal text-[#140206]">Scheduled Service Visits</h2>
+          </div>
         </div>
 
-        <div className="divide-y divide-slate-800">
+        <div className="divide-y border-[#140206]">
           {appointments.map((appt) => (
-            <div key={appt.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-850/40 transition">
+            <div key={appt.id} className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-[#fbf8f1] transition">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex flex-col items-center justify-center shrink-0 border border-brand-500/20">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">
+                <div className="w-14 h-14 rounded-2xl bg-[#140206] text-white flex flex-col items-center justify-center shrink-0 border-2 border-[#140206] shadow-brutal-sm">
+                  <span className="text-[10px] font-mono uppercase font-bold text-[#1bd944]">
                     {new Date(appt.start_time).toLocaleDateString([], { month: 'short' })}
                   </span>
-                  <span className="text-base font-extrabold text-white leading-none">
+                  <span className="font-serif text-xl font-bold text-white leading-none">
                     {new Date(appt.start_time).getDate()}
                   </span>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-white text-sm">{appt.customer_name}</span>
-                    <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${
+                    <span className="font-serif font-bold text-lg text-[#140206]">{appt.customer_name}</span>
+                    <span className={`text-[10px] font-mono uppercase font-bold px-2.5 py-0.5 rounded-full border border-[#140206] ${
                       appt.status === 'CONFIRMED'
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                        : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                        ? 'bg-[#1bd944] text-[#140206]'
+                        : 'bg-[#ffb4c5] text-[#140206]'
                     }`}>
                       {appt.status}
                     </span>
                   </div>
-                  <div className="text-xs text-slate-400 flex items-center gap-3 mt-1">
+                  <div className="text-xs font-mono text-[#5e5850] flex items-center gap-4 mt-1">
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-brand-400" />
+                      <Clock className="w-3.5 h-3.5 text-[#ff6183]" />
                       {new Date(appt.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Phone className="w-3.5 h-3.5 text-brand-400" />
+                      <Phone className="w-3.5 h-3.5 text-[#1bd944]" />
                       {appt.customer_phone}
                     </span>
                   </div>
                   {appt.notes && (
-                    <div className="text-xs text-slate-300 mt-2 bg-slate-850 p-2 rounded-lg border border-slate-800">
+                    <div className="text-xs font-sans text-[#140206] mt-2 bg-[#f3eee7] p-2.5 rounded-xl border-1.5 border-[#140206]">
                       {appt.notes}
                     </div>
                   )}
@@ -161,7 +167,7 @@ export const AppointmentsPage: React.FC = () => {
                 <div className="flex items-center gap-2 self-end sm:self-center">
                   <button
                     onClick={() => handleCancel(appt.id)}
-                    className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-lg text-xs font-semibold transition"
+                    className="px-4 py-2 bg-[#ffb4c5] hover:bg-[#ff6183] text-[#140206] border-2 border-[#140206] rounded-full text-xs font-mono uppercase font-bold shadow-brutal-sm transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                   >
                     Cancel Booking
                   </button>

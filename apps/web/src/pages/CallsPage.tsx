@@ -44,76 +44,78 @@ export const CallsPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-[#140206] pb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <PhoneCall className="w-6 h-6 text-brand-400" />
-            Inbound Call History
+          <span className="text-xs font-mono uppercase tracking-widest text-[#856f58] font-bold block mb-1">
+            TELEPHONY LOGS // PSTN TRUNKS
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#140206] flex items-center gap-2">
+            Inbound Call Audio Logs
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Complete telephonic call logs, call outcomes, durations, and audio simulation.
+          <p className="text-xs font-mono text-[#5e5850] mt-1">
+            Detailed telephone sessions, outcomes, durations, and audio simulation playback.
           </p>
         </div>
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+      <div className="bg-white border-2 border-[#140206] rounded-3xl overflow-hidden shadow-brutal">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-850/60 text-slate-400 text-[11px] uppercase tracking-wider font-semibold border-b border-slate-800">
+          <table className="w-full text-left text-sm font-sans">
+            <thead className="bg-[#fbf8f1] text-[#856f58] text-[11px] font-mono uppercase tracking-wider font-bold border-b-2 border-[#140206]">
               <tr>
-                <th className="px-6 py-3.5">Caller</th>
-                <th className="px-6 py-3.5">Status</th>
+                <th className="px-6 py-3.5">Caller Line</th>
+                <th className="px-6 py-3.5">Connection</th>
                 <th className="px-6 py-3.5">Duration</th>
                 <th className="px-6 py-3.5">Outcome</th>
                 <th className="px-6 py-3.5">Sentiment</th>
-                <th className="px-6 py-3.5">Audio Audio</th>
+                <th className="px-6 py-3.5">Acoustic Playback</th>
                 <th className="px-6 py-3.5 text-right">Transcript</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-200">
+            <tbody className="divide-y border-[#140206] text-[#140206]">
               {calls.map((call) => (
-                <tr key={call.id} className="hover:bg-slate-800/30 transition">
+                <tr key={call.id} className="hover:bg-[#f3eee7] transition">
                   <td className="px-6 py-4">
-                    <div className="font-semibold text-white">{call.caller_phone}</div>
-                    <div className="text-xs text-slate-400 mt-0.5 max-w-sm truncate">
+                    <div className="font-mono font-bold text-xs text-[#140206]">{call.caller_phone}</div>
+                    <div className="text-xs text-[#5e5850] mt-0.5 max-w-sm truncate">
                       {call.summary || 'General inquiry'}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-bold bg-[#1bd944] text-[#140206] border border-[#140206]">
                       {call.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 font-mono text-xs text-slate-300">
+                  <td className="px-6 py-4 font-mono text-xs text-[#140206]">
                     {Math.floor(call.duration_seconds / 60)}m {call.duration_seconds % 60}s
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-xs font-semibold text-brand-400">
+                    <span className="text-xs font-mono font-bold text-[#140206]">
                       {call.outcome?.replace('_', ' ')}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-xs font-medium text-emerald-400">
+                  <td className="px-6 py-4 text-xs font-mono font-bold text-[#0cb531]">
                     ● {call.sentiment}
                   </td>
                   <td className="px-6 py-4">
                     <button
                       onClick={() => toggleAudioSimulation(call.id, call.summary)}
-                      className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold border transition ${
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm transition ${
                         playingId === call.id
-                          ? 'bg-brand-600 text-white border-brand-500'
-                          : 'bg-slate-850 hover:bg-slate-800 text-slate-300 border-slate-700'
+                          ? 'bg-[#140206] text-white'
+                          : 'bg-[#f5f3ef] hover:bg-[#1bd944] text-[#140206]'
                       }`}
                     >
                       {playingId === call.id ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                      <span>{playingId === call.id ? 'Playing' : 'Listen'}</span>
+                      <span>{playingId === call.id ? 'Playing' : 'Playback'}</span>
                     </button>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <Link
                       to="/dashboard/conversations"
-                      className="text-xs text-brand-400 hover:text-brand-300 font-semibold inline-flex items-center gap-1"
+                      className="text-xs font-mono uppercase font-bold text-[#140206] hover:text-[#1bd944] underline underline-offset-4"
                     >
-                      Transcript <ChevronRight className="w-3.5 h-3.5" />
+                      Dialogue
                     </Link>
                   </td>
                 </tr>

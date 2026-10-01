@@ -1,328 +1,374 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   PhoneCall, Calendar, Users, Sparkles, Shield, Clock, CheckCircle2,
   ArrowRight, MessageSquare, Wrench, Building2, Stethoscope, Scale, Car,
-  ChevronRight, Bot, Zap, Globe
+  ChevronRight, Bot, Zap, Globe, Volume2, ArrowUpRight, Cpu, Radio
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { HumanComputingCore3D } from '../components/Three/HumanComputingCore3D';
 
 export const LandingPage: React.FC = () => {
   const { loginAsDemo } = useAuth();
+  const [isDemoSpeaking, setIsDemoSpeaking] = useState(false);
+
+  const simulateGreetingSpeech = () => {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance("Hello! You're connected to the Tavus human computing voice agent. How can I direct your call today?");
+    u.rate = 1.0;
+    u.pitch = 1.05;
+    u.onstart = () => setIsDemoSpeaking(true);
+    u.onend = () => setIsDemoSpeaking(false);
+    u.onerror = () => setIsDemoSpeaking(false);
+    window.speechSynthesis.speak(u);
+  };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-brand-500 selection:text-white">
-      {/* Top Navigation */}
-      <header className="h-20 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+    <div className="min-h-screen bg-[#f3eee7] text-[#140206] selection:bg-[#1bd944] selection:text-[#140206]">
+      {/* Sticky Editorial Nav */}
+      <header className="h-20 border-b-2 border-[#140206] bg-[#f3eee7]/90 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-[1416px] mx-auto px-6 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-brand-500/25">
-              <Bot className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-full bg-[#140206] flex items-center justify-center border-2 border-[#140206] shadow-brutal-sm">
+              <Cpu className="w-5 h-5 text-[#1bd944]" />
             </div>
             <div>
-              <span className="font-extrabold text-xl tracking-tight text-white block">AI Receptionist</span>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-brand-400 block">Enterprise Voice SaaS</span>
+              <span className="font-serif italic font-bold text-2xl tracking-tight text-[#140206] leading-none block">
+                Tavus Voice
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#4b2c22] font-semibold block mt-0.5">
+                The Human Computing Company
+              </span>
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#how-it-works" className="hover:text-white transition">How It Works</a>
-            <a href="#features" className="hover:text-white transition">Features</a>
-            <a href="#integrations" className="hover:text-white transition">Integrations</a>
-            <a href="#pricing" className="hover:text-white transition">Pricing</a>
-            <a href="#faq" className="hover:text-white transition">FAQ</a>
+          <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider font-semibold text-[#140206]">
+            <a href="#how-it-works" className="hover:text-[#1bd944] transition">Architecture</a>
+            <a href="#features" className="hover:text-[#1bd944] transition">Capabilities</a>
+            <a href="#integrations" className="hover:text-[#1bd944] transition">Integrations</a>
+            <a href="#pricing" className="hover:text-[#1bd944] transition">Plans</a>
+            <a href="#faq" className="hover:text-[#1bd944] transition">Documentation</a>
           </nav>
 
           <div className="flex items-center gap-3">
             <Link
               to="/login"
-              className="text-sm font-semibold text-slate-300 hover:text-white px-3 py-2 transition"
+              className="text-xs font-mono uppercase tracking-wider font-bold text-[#140206] px-4 py-2 hover:underline underline-offset-4"
             >
               Sign In
             </Link>
             <button
               onClick={loginAsDemo}
-              className="px-4 py-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-brand-500/20 transition flex items-center gap-1.5"
+              className="px-5 py-2.5 bg-[#140206] text-[#f5f3ef] hover:bg-[#1bd944] hover:text-[#140206] rounded-full text-xs font-mono uppercase tracking-wider font-bold border-2 border-[#140206] shadow-brutal transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
             >
               <span>Explore Demo</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-24 px-6 relative overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-500/10 blur-[140px] pointer-events-none rounded-full"></div>
+      {/* Hero Marquee Ticker */}
+      <div className="bg-[#140206] text-[#1bd944] py-2.5 border-b-2 border-[#140206] overflow-hidden select-none font-mono text-xs uppercase tracking-widest">
+        <div className="animate-marquee whitespace-nowrap flex gap-12 font-bold">
+          <span>● 3D HUMAN COMPUTING CORE ACTIVE</span>
+          <span>· TWILIO PSTN & SIP VOICE STREAMING</span>
+          <span>· REAL-TIME APPOINTMENTS IN GOOGLE CALENDAR</span>
+          <span>· MULTI-TENANT POSTGRESQL ARCHITECTURE</span>
+          <span>· 30+ LANGUAGES POWERED BY GEMINI 1.5</span>
+          <span>· ZERO HALLUCINATION STRUCTURED TOOLING</span>
+          <span>· INSTANT EMAIL & WHATSAPP DISPATCH</span>
+          <span>● 3D HUMAN COMPUTING CORE ACTIVE</span>
+          <span>· TWILIO PSTN & SIP VOICE STREAMING</span>
+          <span>· REAL-TIME APPOINTMENTS IN GOOGLE CALENDAR</span>
+        </div>
+      </div>
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-semibold text-brand-400 mb-8">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Next-Gen Voice AI Engine Powered by Gemini & Twilio</span>
+      {/* Hero Section with Interactive 3D Canvas */}
+      <section className="pt-16 pb-20 px-6 relative border-b-2 border-[#140206]">
+        <div className="max-w-[1416px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Editorial Headline & Actions */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f5f3ef] border-2 border-[#140206] text-xs font-mono font-bold shadow-brutal-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#1bd944] animate-ping"></span>
+              <span>Voice Agents That Hear, Reason & Talk 24/7</span>
+            </div>
+
+            <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl font-normal leading-[0.98] tracking-tight text-[#140206]">
+              The voice <br />
+              <span className="italic font-normal">intelligence</span> <br />
+              for your business.
+            </h1>
+
+            <p className="text-base sm:text-lg text-[#4b2c22] max-w-xl leading-relaxed font-sans font-normal pt-2">
+              Deploy human-like conversational voice agents that answer telephone calls face-to-ear in real time. Backed by verified business knowledge, real-time Google Calendar scheduling, and instant human escalation.
+            </p>
+
+            <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <button
+                onClick={loginAsDemo}
+                className="px-8 py-4 bg-[#1bd944] text-[#140206] hover:bg-[#3bdb5d] rounded-full text-sm font-mono uppercase tracking-wider font-extrabold border-2 border-[#140206] shadow-brutal transition active:translate-x-1 active:translate-y-1 active:shadow-none flex items-center justify-center gap-2"
+              >
+                <span>Launch SwiftFix Demo</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <Link
+                to="/dashboard/voice-studio"
+                className="px-7 py-4 bg-[#ffffff] hover:bg-[#f5f3ef] text-[#140206] rounded-full text-sm font-mono uppercase tracking-wider font-bold border-2 border-[#140206] shadow-brutal transition active:translate-x-1 active:translate-y-1 active:shadow-none flex items-center justify-center gap-2"
+              >
+                <Radio className="w-4 h-4 text-[#ff6183]" />
+                <span>3D Voice Studio</span>
+              </Link>
+            </div>
+
+            {/* Quick Metrics Line */}
+            <div className="pt-6 flex flex-wrap items-center gap-6 text-xs font-mono text-[#5e5850]">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#1bd944]"></span>
+                <strong className="text-[#140206]">95%</strong> AI Resolution Rate
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#ff6183]"></span>
+                <strong className="text-[#140206]">&lt; 800ms</strong> Turn-Taking Latency
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#fd7f00]"></span>
+                <strong className="text-[#140206]">100%</strong> Tenant Isolation
+              </div>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
-            Your AI Receptionist, <br />
-            <span className="bg-gradient-to-r from-brand-400 via-indigo-300 to-teal-300 bg-clip-text text-transparent">
-              Working 24/7.
+          {/* Right Column: Interactive 3D Human Computing Core */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            <div className="w-full max-w-md bg-[#ffffff] border-2 border-[#140206] rounded-3xl p-6 shadow-brutal-lg relative overflow-hidden">
+              <div className="flex items-center justify-between border-b-2 border-[#140206] pb-3 mb-2 font-mono text-xs">
+                <div className="flex items-center gap-2 font-bold">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#1bd944]"></span>
+                  <span>TAVUS_CORE_v18.1</span>
+                </div>
+                <span className="text-[#856f58]">3D COMPUTING MESH</span>
+              </div>
+
+              {/* 3D WebGL Canvas */}
+              <div className="py-2 flex justify-center">
+                <HumanComputingCore3D size={280} isSpeaking={isDemoSpeaking} />
+              </div>
+
+              {/* Interactive Audio Trigger */}
+              <div className="pt-4 border-t-2 border-[#140206] flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-mono font-bold text-[#140206]">Sarah Voice Agent</div>
+                  <div className="text-[11px] font-mono text-[#856f58]">Neural Speech & Function Calling</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={simulateGreetingSpeech}
+                  className="px-4 py-2 bg-[#ffb4c5] hover:bg-[#ff6183] text-[#140206] rounded-full text-xs font-mono uppercase font-bold border-1.5 border-[#140206] shadow-brutal-sm transition flex items-center gap-1.5"
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>Test Audio</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Logo Cloud / Social Proof */}
+      <section className="py-12 border-b-2 border-[#140206] bg-[#f5f3ef] px-6">
+        <div className="max-w-[1416px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-xs font-mono uppercase tracking-widest text-[#5e5850] font-bold">
+            Trusted by service companies across North America:
+          </div>
+          <div className="flex flex-wrap items-center gap-8 text-sm font-serif italic text-[#140206] font-bold">
+            <span className="px-3 py-1 bg-white border border-[#140206] rounded shadow-brutal-sm">SwiftFix Plumbing</span>
+            <span className="px-3 py-1 bg-white border border-[#140206] rounded shadow-brutal-sm">Vanguard Dental Care</span>
+            <span className="px-3 py-1 bg-white border border-[#140206] rounded shadow-brutal-sm">Apex Legal Partners</span>
+            <span className="px-3 py-1 bg-white border border-[#140206] rounded shadow-brutal-sm">Precision Auto Fleet</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Macrostructure: Architectural Workflow */}
+      <section id="how-it-works" className="py-24 px-6 border-b-2 border-[#140206]">
+        <div className="max-w-[1416px] mx-auto">
+          <div className="max-w-2xl mb-16">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#fd7f00] font-bold block mb-2">
+              End-to-End Orchestration
             </span>
-          </h1>
-
-          <p className="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Answer every inbound call, answer questions using your business knowledge, capture leads, and book appointments directly to Google Calendar.
-          </p>
-
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={loginAsDemo}
-              className="w-full sm:w-auto px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-base font-bold shadow-xl shadow-brand-500/30 transition flex items-center justify-center gap-2"
-            >
-              <span>Start Free (Launch Demo)</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-
-            <Link
-              to="/dashboard/voice-studio"
-              className="w-full sm:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 rounded-xl text-base font-semibold transition flex items-center justify-center gap-2"
-            >
-              <PhoneCall className="w-5 h-5 text-brand-400" />
-              <span>Try Live Voice Tester</span>
-            </Link>
+            <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight text-[#140206]">
+              How the human computing voice pipeline operates.
+            </h2>
           </div>
 
-          <div className="mt-12 flex items-center justify-center gap-8 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 24/7 Zero Missed Calls</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Google Calendar Synced</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> WhatsApp & Email Alerts</span>
-          </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="bg-[#ffffff] border-2 border-[#140206] rounded-2xl p-6 shadow-brutal card-tavus-interactive">
+              <div className="font-mono text-xs font-bold text-[#ff6183] mb-4">PHASE 01</div>
+              <h3 className="font-serif text-2xl font-normal text-[#140206] mb-2">PSTN Inbound</h3>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Customer dials your telephone line. Twilio Voice connects in &lt; 200ms and triggers the verified business greeting.
+              </p>
+            </div>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-slate-900/50 border-y border-slate-800/80 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Automated Workflow</h2>
-            <h3 className="text-3xl font-extrabold text-white">How the AI Voice Receptionist Works</h3>
-            <p className="text-sm text-slate-400 mt-2">From customer phone ring to calendar booking in under 2 minutes.</p>
-          </div>
+            <div className="bg-[#ffffff] border-2 border-[#140206] rounded-2xl p-6 shadow-brutal card-tavus-interactive">
+              <div className="font-mono text-xs font-bold text-[#1bd944] mb-4">PHASE 02</div>
+              <h3 className="font-serif text-2xl font-normal text-[#140206] mb-2">Knowledge Retrieval</h3>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Gemini processes customer speech, retrieves verified diagnostic pricing, policies, and operating hours without fabricating data.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl relative">
-              <div className="text-4xl font-extrabold text-slate-800 mb-4">01</div>
-              <h4 className="text-lg font-bold text-white mb-2">Inbound Ring</h4>
-              <p className="text-sm text-slate-400">Customer dials your business number. Sarah answers on the very first ring with your personalized business greeting.</p>
+            <div className="bg-[#ffffff] border-2 border-[#140206] rounded-2xl p-6 shadow-brutal card-tavus-interactive">
+              <div className="font-mono text-xs font-bold text-[#fd7f00] mb-4">PHASE 03</div>
+              <h3 className="font-serif text-2xl font-normal text-[#140206] mb-2">Calendar Booking</h3>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Executes <code className="text-[#140206] font-mono bg-[#eae5de] px-1 rounded">check_availability()</code> to prevent double bookings, adding confirmed events directly to Google Calendar.
+              </p>
             </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl relative">
-              <div className="text-4xl font-extrabold text-slate-800 mb-4">02</div>
-              <h4 className="text-lg font-bold text-white mb-2">Knowledge Retrieval</h4>
-              <p className="text-sm text-slate-400">AI reasons with Gemini, answers service questions, explains diagnostic rates, and checks business hours without making things up.</p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl relative">
-              <div className="text-4xl font-extrabold text-slate-800 mb-4">03</div>
-              <h4 className="text-lg font-bold text-white mb-2">Real-Time Booking</h4>
-              <p className="text-sm text-slate-400">Checks operating hours and live Google Calendar availability, proposes conflict-free times, and books the slot.</p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl relative">
-              <div className="text-4xl font-extrabold text-slate-800 mb-4">04</div>
-              <h4 className="text-lg font-bold text-white mb-2">Instant Alerts</h4>
-              <p className="text-sm text-slate-400">Sends appointment confirmations via Email (Resend) and WhatsApp Cloud API, logging leads and transcripts into your dashboard.</p>
+
+            <div className="bg-[#ffffff] border-2 border-[#140206] rounded-2xl p-6 shadow-brutal card-tavus-interactive">
+              <div className="font-mono text-xs font-bold text-[#9e94c8] mb-4">PHASE 04</div>
+              <h3 className="font-serif text-2xl font-normal text-[#140206] mb-2">Instant Dispatch</h3>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Dispatches confirmation emails via Resend and WhatsApp Cloud API, logging leads, transcripts, and telemetry to the dashboard.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Core Features */}
-      <section id="features" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Enterprise Capabilities</h2>
-            <h3 className="text-3xl font-extrabold text-white">Engineered for Real-World Businesses</h3>
+      {/* Capabilities Grid */}
+      <section id="features" className="py-24 px-6 border-b-2 border-[#140206] bg-[#f5f3ef]">
+        <div className="max-w-[1416px] mx-auto">
+          <div className="max-w-2xl mb-16">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#1bd944] font-bold block mb-2">
+              SaaS Capabilities
+            </span>
+            <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight text-[#140206]">
+              Built with Swiss precision & zero hallucination.
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl hover:border-brand-500/40 transition">
-              <div className="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-6">
-                <Sparkles className="w-6 h-6" />
+            <div className="bg-white border-2 border-[#140206] rounded-2xl p-8 shadow-brutal">
+              <div className="w-12 h-12 rounded-full bg-[#1bd944]/20 border-2 border-[#140206] flex items-center justify-center mb-6">
+                <Sparkles className="w-6 h-6 text-[#140206]" />
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">Structured Tool Execution</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                The AI does not hallucinate. It executes validated backend functions for availability checking, appointment creation, and lead capture.
+              <h4 className="font-serif text-2xl font-normal text-[#140206] mb-2">Structured Tool Calling</h4>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Sarah executes deterministic backend functions for booking, lead capture, and knowledge search. Arbitrary SQL generation is strictly prohibited.
               </p>
             </div>
 
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl hover:border-brand-500/40 transition">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-6">
-                <Calendar className="w-6 h-6" />
+            <div className="bg-white border-2 border-[#140206] rounded-2xl p-8 shadow-brutal">
+              <div className="w-12 h-12 rounded-full bg-[#ffb4c5]/40 border-2 border-[#140206] flex items-center justify-center mb-6">
+                <Calendar className="w-6 h-6 text-[#140206]" />
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">Google Calendar Two-Way Sync</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Seamless OAuth 2.0 integration prevents double-bookings, honors business operating hours, and writes events directly to your calendar.
+              <h4 className="font-serif text-2xl font-normal text-[#140206] mb-2">Google Calendar OAuth</h4>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Secure server-side token management verifies real-time calendar openings, respects shop operating hours, and creates synchronized appointments.
               </p>
             </div>
 
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl hover:border-brand-500/40 transition">
-              <div className="w-12 h-12 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center mb-6">
-                <Shield className="w-6 h-6" />
+            <div className="bg-white border-2 border-[#140206] rounded-2xl p-8 shadow-brutal">
+              <div className="w-12 h-12 rounded-full bg-[#d0c9ed]/50 border-2 border-[#140206] flex items-center justify-center mb-6">
+                <Shield className="w-6 h-6 text-[#140206]" />
               </div>
-              <h4 className="text-lg font-bold text-white mb-2">Strict Multi-Tenant Isolation</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Tenant isolation powered by PostgreSQL RLS and server-side authentication. Never trust client-supplied business IDs.
-              </p>
-            </div>
-
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl hover:border-brand-500/40 transition">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-6">
-                <MessageSquare className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg font-bold text-white mb-2">WhatsApp & Email Notifications</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Automated confirmations via Resend and Meta WhatsApp Business Cloud API keep both the business owner and customer informed.
-              </p>
-            </div>
-
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl hover:border-brand-500/40 transition">
-              <div className="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center mb-6">
-                <PhoneCall className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg font-bold text-white mb-2">Human Handoff & Escalation</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                When a caller asks for a manager or in emergency situations, Sarah gracefully transfers the live call or triggers immediate dispatch alerts.
-              </p>
-            </div>
-
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl hover:border-brand-500/40 transition">
-              <div className="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center mb-6">
-                <Users className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg font-bold text-white mb-2">Full Call & Conversation History</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Review call recordings, complete turn-by-turn transcripts, sentiment scores, and customer journey timelines in a clean dashboard.
+              <h4 className="font-serif text-2xl font-normal text-[#140206] mb-2">PostgreSQL RLS Multi-Tenancy</h4>
+              <p className="text-xs text-[#5e5850] leading-relaxed font-sans">
+                Strict database Row-Level Security ensures Business A can never access Business B's leads, calls, or calendar events.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Target Use Cases */}
-      <section className="py-20 bg-slate-900/40 border-y border-slate-800/80 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Industry Solutions</h2>
-            <h3 className="text-3xl font-extrabold text-white">Built for High-Call Volume Businesses</h3>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl text-center">
-              <Wrench className="w-8 h-8 text-brand-400 mx-auto mb-3" />
-              <h5 className="font-bold text-white text-sm">Plumbing & HVAC</h5>
-              <p className="text-xs text-slate-400 mt-1">24/7 leak dispatch & bookings</p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl text-center">
-              <Stethoscope className="w-8 h-8 text-emerald-400 mx-auto mb-3" />
-              <h5 className="font-bold text-white text-sm">Dental & Clinics</h5>
-              <p className="text-xs text-slate-400 mt-1">Patient scheduling & intake</p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl text-center">
-              <Scale className="w-8 h-8 text-amber-400 mx-auto mb-3" />
-              <h5 className="font-bold text-white text-sm">Law Firms</h5>
-              <p className="text-xs text-slate-400 mt-1">Client qualification & screening</p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl text-center">
-              <Car className="w-8 h-8 text-violet-400 mx-auto mb-3" />
-              <h5 className="font-bold text-white text-sm">Auto Repair</h5>
-              <p className="text-xs text-slate-400 mt-1">Service visit estimation & appointments</p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl text-center">
-              <Building2 className="w-8 h-8 text-teal-400 mx-auto mb-3" />
-              <h5 className="font-bold text-white text-sm">Real Estate</h5>
-              <p className="text-xs text-slate-400 mt-1">Showing requests & buyer leads</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Simple SaaS Pricing</h2>
-            <h3 className="text-3xl font-extrabold text-white">Invest in Zero Missed Business</h3>
+      {/* Pricing with Retro Hardware Aesthetic */}
+      <section id="pricing" className="py-24 px-6 border-b-2 border-[#140206]">
+        <div className="max-w-[1416px] mx-auto">
+          <div className="max-w-2xl mb-16">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#ff6183] font-bold block mb-2">
+              Subscription Tiers
+            </span>
+            <h2 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight text-[#140206]">
+              Predictable, transparent voice pricing.
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Starter */}
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col justify-between">
+            <div className="bg-white border-2 border-[#140206] rounded-3xl p-8 shadow-brutal flex flex-col justify-between">
               <div>
-                <h4 className="text-lg font-bold text-white">Starter</h4>
-                <p className="text-xs text-slate-400 mt-1">Solo operators & small service shops</p>
+                <div className="font-mono text-xs font-bold uppercase text-[#856f58]">Tier 01</div>
+                <h4 className="font-serif text-3xl font-normal text-[#140206] mt-1">Starter</h4>
                 <div className="mt-6 mb-6">
-                  <span className="text-4xl font-extrabold text-white">$49</span>
-                  <span className="text-xs text-slate-400"> / month</span>
+                  <span className="font-serif text-5xl font-bold text-[#140206]">$49</span>
+                  <span className="font-mono text-xs text-[#5e5850]"> / month</span>
                 </div>
-                <ul className="space-y-3 text-sm text-slate-300">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 200 Voice Minutes / mo</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 1 Phone Number</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Lead Capture & Email Alerts</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Custom Business FAQ</li>
+                <ul className="space-y-3 font-sans text-xs text-[#4b2c22]">
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> 200 Voice Minutes / mo</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Dedicated Inbound Phone Number</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Lead Capture & Email Notifications</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Custom Business FAQs</li>
                 </ul>
               </div>
               <button
                 onClick={loginAsDemo}
-                className="mt-8 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition"
+                className="mt-8 w-full py-3 bg-[#eae5de] hover:bg-[#140206] hover:text-white text-[#140206] rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm transition"
               >
-                Get Started
+                Select Starter
               </button>
             </div>
 
             {/* Professional (Featured) */}
-            <div className="p-8 bg-slate-900 border-2 border-brand-500 rounded-2xl relative shadow-xl shadow-brand-500/10 flex flex-col justify-between">
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-600 text-white text-[11px] uppercase font-bold tracking-wider rounded-full">
-                Most Popular
+            <div className="bg-[#fbf8f1] border-2 border-[#140206] rounded-3xl p-8 shadow-brutal-lg relative flex flex-col justify-between">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#1bd944] text-[#140206] text-[10px] font-mono uppercase font-extrabold tracking-widest rounded-full border-2 border-[#140206] shadow-brutal-sm">
+                RECOMMENDED
               </div>
               <div>
-                <h4 className="text-lg font-bold text-white">Professional</h4>
-                <p className="text-xs text-slate-400 mt-1">Growing businesses with daily calls</p>
+                <div className="font-mono text-xs font-bold uppercase text-[#fd7f00]">Tier 02</div>
+                <h4 className="font-serif text-3xl font-normal text-[#140206] mt-1">Professional</h4>
                 <div className="mt-6 mb-6">
-                  <span className="text-4xl font-extrabold text-white">$149</span>
-                  <span className="text-xs text-slate-400"> / month</span>
+                  <span className="font-serif text-5xl font-bold text-[#140206]">$149</span>
+                  <span className="font-mono text-xs text-[#5e5850]"> / month</span>
                 </div>
-                <ul className="space-y-3 text-sm text-slate-300">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-400" /> 1,000 Voice Minutes / mo</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-400" /> Google Calendar Real-Time Booking</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-400" /> WhatsApp & Email Confirmations</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-400" /> Human Transfer & Escalation</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-brand-400" /> Unlimited Services & FAQs</li>
+                <ul className="space-y-3 font-sans text-xs text-[#4b2c22]">
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> 1,000 Voice Minutes / mo</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Google Calendar Real-Time Scheduling</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> WhatsApp Cloud API & Email Dispatches</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Live Call Transfer to Human Staff</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Unlimited Services & Knowledge Items</li>
                 </ul>
               </div>
               <button
                 onClick={loginAsDemo}
-                className="mt-8 w-full py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-brand-500/30 transition"
+                className="mt-8 w-full py-3.5 bg-[#1bd944] hover:bg-[#3bdb5d] text-[#140206] rounded-full text-xs font-mono uppercase font-extrabold border-2 border-[#140206] shadow-brutal transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
               >
                 Launch Professional
               </button>
             </div>
 
             {/* Business */}
-            <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col justify-between">
+            <div className="bg-white border-2 border-[#140206] rounded-3xl p-8 shadow-brutal flex flex-col justify-between">
               <div>
-                <h4 className="text-lg font-bold text-white">Business</h4>
-                <p className="text-xs text-slate-400 mt-1">Multi-location & enterprise fleets</p>
+                <div className="font-mono text-xs font-bold uppercase text-[#856f58]">Tier 03</div>
+                <h4 className="font-serif text-3xl font-normal text-[#140206] mt-1">Enterprise</h4>
                 <div className="mt-6 mb-6">
-                  <span className="text-4xl font-extrabold text-white">$399</span>
-                  <span className="text-xs text-slate-400"> / month</span>
+                  <span className="font-serif text-5xl font-bold text-[#140206]">$399</span>
+                  <span className="font-mono text-xs text-[#5e5850]"> / month</span>
                 </div>
-                <ul className="space-y-3 text-sm text-slate-300">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 5,000 Voice Minutes / mo</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Multiple Phone Numbers</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Custom Voice Clone & Fine-Tuning</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Dedicated Account Architect</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Custom Webhook Integration</li>
+                <ul className="space-y-3 font-sans text-xs text-[#4b2c22]">
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> 5,000 Voice Minutes / mo</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Multi-Location Inbound Pool</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Custom Speech Model Fine-Tuning</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#1bd944]" /> Dedicated Technical Account Architect</li>
                 </ul>
               </div>
               <button
                 onClick={loginAsDemo}
-                className="mt-8 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition"
+                className="mt-8 w-full py-3 bg-[#eae5de] hover:bg-[#140206] hover:text-white text-[#140206] rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm transition"
               >
                 Contact Sales
               </button>
@@ -331,51 +377,26 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="py-20 bg-slate-900/40 border-t border-slate-800/80 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Got Questions?</h2>
-            <h3 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h3>
+      {/* Footer */}
+      <footer className="py-16 px-6 bg-[#f3eee7] text-[#140206]">
+        <div className="max-w-[1416px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-t-2 border-[#140206] pt-12">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#140206] flex items-center justify-center">
+              <Cpu className="w-4 h-4 text-[#1bd944]" />
+            </div>
+            <span className="font-serif italic font-bold text-xl text-[#140206]">Tavus Voice</span>
           </div>
 
-          <div className="space-y-4">
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl">
-              <h5 className="font-bold text-white text-base">Does the AI invent or hallucinate pricing and hours?</h5>
-              <p className="text-sm text-slate-400 mt-2">
-                No. The AI engine strictly uses structured tool calls (`get_services`, `get_business_hours`, `check_availability`) and business knowledge you configure. If information isn't available, it politely informs the caller and offers human transfer.
-              </p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl">
-              <h5 className="font-bold text-white text-base">Can I keep my existing business phone number?</h5>
-              <p className="text-sm text-slate-400 mt-2">
-                Yes! You can either forward calls from your existing carrier (e.g., when unanswered or after-hours) to your Twilio number, or port your number directly into your dedicated voice pool.
-              </p>
-            </div>
-            <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl">
-              <h5 className="font-bold text-white text-base">How does Google Calendar appointment booking work?</h5>
-              <p className="text-sm text-slate-400 mt-2">
-                Through official Google OAuth 2.0. The AI receptionist checks real-time availability to avoid conflicts with your personal and business schedule, then adds the event with customer phone, address, and notes.
-              </p>
-            </div>
+          <div className="text-xs font-mono text-[#5e5850]">
+            © 2026 Tavus Human Computing Company • AI Receptionist SaaS Architecture
           </div>
-        </div>
-      </section>
 
-      {/* CTA Footer */}
-      <footer className="py-16 border-t border-slate-800 px-6 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white">Ready to Never Miss Another Phone Lead?</h3>
-          <p className="text-sm text-slate-400 mt-2 mb-8">Deploy your intelligent voice receptionist in under 10 minutes.</p>
           <button
             onClick={loginAsDemo}
-            className="px-8 py-3.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-base font-bold shadow-xl shadow-brand-500/25 transition"
+            className="px-5 py-2 bg-[#140206] text-white hover:bg-[#1bd944] hover:text-[#140206] rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm transition"
           >
-            Launch SwiftFix Demo Dashboard
+            Launch SwiftFix Demo
           </button>
-          <div className="mt-12 text-xs text-slate-500">
-            © 2026 AI Receptionist Inc. All rights reserved. Multi-Tenant Enterprise Voice Architecture.
-          </div>
         </div>
       </footer>
     </div>

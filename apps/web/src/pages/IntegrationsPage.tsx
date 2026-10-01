@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { apiRequest } from '../lib/api';
 import {
   Layers, PhoneCall, Calendar, Mail, MessageSquare, Sparkles,
-  CheckCircle2, ExternalLink, ShieldCheck
+  CheckCircle2, ExternalLink
 } from 'lucide-react';
 
 export const IntegrationsPage: React.FC = () => {
@@ -23,85 +23,82 @@ export const IntegrationsPage: React.FC = () => {
 
   const cards = [
     {
-      name: 'Twilio Voice',
+      name: 'Twilio Voice PSTN',
       category: 'Telephony & SIP Trunks',
       icon: PhoneCall,
-      status: 'ACTIVE',
-      desc: 'Handles incoming telephone calls, voice speech-to-text, TwiML generation, and PSTN routing.',
-      color: 'from-rose-500/20 to-red-500/20 text-rose-400',
-      connected: true
+      status: 'OPERATIONAL',
+      desc: 'Inbound carrier SIP trunking, real-time bi-directional audio gathering, TwiML compilation, and human supervisor transfer.',
+      bg: 'bg-[#ffda95]'
     },
     {
-      name: 'Google Calendar',
-      category: 'Scheduling & Availability',
+      name: 'Google Calendar API',
+      category: 'Scheduling Engine',
       icon: Calendar,
-      status: 'ACTIVE',
-      desc: 'OAuth 2.0 two-way synchronization for real-time booking, conflict avoidance, and event reminders.',
-      color: 'from-blue-500/20 to-indigo-500/20 text-blue-400',
-      connected: true
+      status: 'OPERATIONAL',
+      desc: 'OAuth 2.0 dual-way calendar sync, intelligent conflict-free slot reservation, and immediate caller invites.',
+      bg: 'bg-[#ade2d8]'
     },
     {
-      name: 'Google Gemini (1.5 Flash)',
-      category: 'AI Reasoning Engine',
+      name: 'Google Gemini 1.5 Flash',
+      category: 'Neural Reasoning Core',
       icon: Sparkles,
-      status: 'ACTIVE',
-      desc: 'Powers natural conversation, tool calling, intent detection, and structured safety guardrails.',
-      color: 'from-violet-500/20 to-purple-500/20 text-violet-400',
-      connected: true
+      status: 'OPERATIONAL',
+      desc: 'Sub-second tool calling, intent detection, deterministic schema validation, and conversational fallback safety guards.',
+      bg: 'bg-[#d0c9ed]'
     },
     {
-      name: 'Resend Email',
-      category: 'Transactional Alerts',
+      name: 'Resend Transactional',
+      category: 'Email Pipeline',
       icon: Mail,
-      status: 'ACTIVE',
-      desc: 'Instant lead notifications, appointment confirmations, and cancellation notices.',
-      color: 'from-emerald-500/20 to-teal-500/20 text-emerald-400',
-      connected: true
+      status: 'OPERATIONAL',
+      desc: 'Instant owner dispatch emails, caller booking confirmations, and human handoff incident logs.',
+      bg: 'bg-[#ffb4c5]'
     },
     {
-      name: 'Meta WhatsApp Cloud API',
-      category: 'Instant Messaging',
+      name: 'Meta WhatsApp Cloud',
+      category: 'Instant Messaging API',
       icon: MessageSquare,
-      status: 'ACTIVE',
-      desc: 'Automated SMS & WhatsApp appointment confirmations and 24-hour reminder broadcasts.',
-      color: 'from-emerald-500/20 to-green-500/20 text-emerald-400',
-      connected: true
+      status: 'OPERATIONAL',
+      desc: 'Automated WhatsApp confirmation broadcasts, booking modifications, and emergency dispatch alerts.',
+      bg: 'bg-[#1bd944]'
     }
   ];
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-          <Layers className="w-6 h-6 text-brand-400" />
-          Integration Hub
+        <h1 className="font-serif text-3xl font-normal tracking-tight text-[#140206] flex items-center gap-3">
+          <span className="w-10 h-10 rounded-full bg-[#140206] text-[#1bd944] flex items-center justify-center border-2 border-[#140206] shadow-brutal-sm">
+            <Layers className="w-5 h-5" />
+          </span>
+          Infrastructure & Protocol Connectors
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
-          Connected third-party voice, AI, calendar, and messaging infrastructure.
+        <p className="text-xs font-mono text-[#5e5850] mt-1">
+          Active integrations powering real-time human computing, calendar bookings, and voice handoffs.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((c, i) => (
-          <div key={i} className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition">
+          <div key={i} className="bg-white border-2 border-[#140206] p-6 rounded-3xl flex flex-col justify-between shadow-brutal hover:shadow-brutal-lg transition">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center`}>
+                <div className={`w-12 h-12 rounded-full ${c.bg} border-2 border-[#140206] shadow-brutal-sm flex items-center justify-center text-[#140206]`}>
                   <c.icon className="w-5 h-5" />
                 </div>
-                <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Connected
+                <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#ade2d8] text-[#140206] border-2 border-[#140206] shadow-brutal-sm">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> {c.status}
                 </span>
               </div>
-              <h3 className="font-bold text-white text-base">{c.name}</h3>
-              <div className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold mb-2">{c.category}</div>
-              <p className="text-xs text-slate-400 leading-relaxed">{c.desc}</p>
+              <h3 className="font-serif text-xl font-normal text-[#140206]">{c.name}</h3>
+              <div className="text-[11px] font-mono text-[#856f58] uppercase tracking-wider font-bold mb-2">{c.category}</div>
+              <p className="text-xs font-sans text-[#4b2c22] leading-relaxed">{c.desc}</p>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-              <span className="text-slate-400">Status: Operational</span>
-              <span className="text-brand-400 font-semibold cursor-pointer hover:underline flex items-center gap-1">
-                Configure <ExternalLink className="w-3 h-3" />
+            <div className="mt-6 pt-4 border-t-2 border-[#140206]/10 flex items-center justify-between text-xs font-mono">
+              <span className="text-[#856f58]">Health: 100% OK</span>
+              <span className="text-[#140206] font-bold cursor-pointer hover:underline flex items-center gap-1">
+                Protocol Details <ExternalLink className="w-3 h-3" />
               </span>
             </div>
           </div>

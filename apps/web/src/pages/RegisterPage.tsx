@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { apiRequest } from '../lib/api';
-import { Bot, Sparkles, ArrowRight } from 'lucide-react';
+import { Cpu, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -41,81 +41,81 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f3eee7] flex flex-col justify-center py-12 sm:px-6 lg:px-8 text-[#140206]">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-flex items-center gap-2 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-brand-500/25">
-            <Bot className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-full bg-[#140206] flex items-center justify-center border-2 border-[#140206] shadow-brutal-sm">
+            <Cpu className="w-5 h-5 text-[#1bd944]" />
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">AI Receptionist</span>
+          <span className="font-serif italic text-2xl font-bold text-[#140206] tracking-tight">Tavus Voice</span>
         </Link>
-        <h2 className="text-2xl font-extrabold text-white">Create your business account</h2>
-        <p className="mt-2 text-xs text-slate-400">
-          Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-brand-400 hover:text-brand-300">
-            Sign in
+        <h2 className="font-serif text-3xl font-normal text-[#140206]">Create your enterprise tenant</h2>
+        <p className="mt-2 text-xs font-mono text-[#5e5850]">
+          Already provisioned?{' '}
+          <Link to="/login" className="font-bold underline text-[#140206] hover:text-[#1bd944]">
+            Sign in to console
           </Link>
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-slate-900 py-8 px-6 shadow-2xl border border-slate-800 rounded-2xl sm:px-10">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+        <div className="bg-white py-8 px-6 border-2 border-[#140206] rounded-3xl shadow-brutal-lg sm:px-10">
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400">
+            <div className="mb-4 p-3 rounded-xl bg-[#ffb4c5]/40 border-2 border-[#140206] text-xs font-mono font-bold text-[#140206]">
               {error}
             </div>
           )}
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4 font-sans" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Your Full Name</label>
+              <label className="block text-xs font-mono uppercase font-bold text-[#140206] mb-1">Your Full Name</label>
               <input
                 type="text"
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="David Miller"
-                className="w-full px-3.5 py-2.5 bg-slate-850 border border-slate-700/80 rounded-lg text-sm text-white focus:outline-none focus:border-brand-500 transition"
+                className="w-full px-3.5 py-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs text-[#140206] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Business Name</label>
+              <label className="block text-xs font-mono uppercase font-bold text-[#140206] mb-1">Business / Brand Name</label>
               <input
                 type="text"
                 required
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                placeholder="SwiftFix Plumbing"
-                className="w-full px-3.5 py-2.5 bg-slate-850 border border-slate-700/80 rounded-lg text-sm text-white focus:outline-none focus:border-brand-500 transition"
+                placeholder="SwiftFix Plumbing & HVAC"
+                className="w-full px-3.5 py-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs text-[#140206] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Business Phone</label>
+              <label className="block text-xs font-mono uppercase font-bold text-[#140206] mb-1">Business Phone Line</label>
               <input
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+1 (555) 234-5678"
-                className="w-full px-3.5 py-2.5 bg-slate-850 border border-slate-700/80 rounded-lg text-sm text-white focus:outline-none focus:border-brand-500 transition"
+                className="w-full px-3.5 py-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs text-[#140206] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Work Email</label>
+              <label className="block text-xs font-mono uppercase font-bold text-[#140206] mb-1">Work Email</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="david@swiftfix.com"
-                className="w-full px-3.5 py-2.5 bg-slate-850 border border-slate-700/80 rounded-lg text-sm text-white focus:outline-none focus:border-brand-500 transition"
+                className="w-full px-3.5 py-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs text-[#140206] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Password</label>
+              <label className="block text-xs font-mono uppercase font-bold text-[#140206] mb-1">Password</label>
               <input
                 type="password"
                 required
@@ -123,16 +123,21 @@ export const RegisterPage: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="At least 8 characters"
-                className="w-full px-3.5 py-2.5 bg-slate-850 border border-slate-700/80 rounded-lg text-sm text-white focus:outline-none focus:border-brand-500 transition"
+                className="w-full px-3.5 py-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs text-[#140206] focus:outline-none focus:bg-white"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-brand-500/25 transition mt-2"
+              className="w-full py-3 bg-[#140206] text-[#f5f3ef] hover:bg-[#1bd944] hover:text-[#140206] rounded-full text-xs font-mono uppercase tracking-wider font-extrabold border-2 border-[#140206] shadow-brutal transition mt-2 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center justify-center gap-2"
             >
-              {loading ? 'Creating Account...' : 'Continue to Onboarding'}
+              {loading ? 'Creating Account...' : (
+                <>
+                  <span>Continue to 8-Step Setup</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
         </div>

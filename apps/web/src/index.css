@@ -4,41 +4,114 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+    background-color: #f3eee7;
+    color: #140206;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    selection-background-color: #1bd944;
+    selection-color: #140206;
   }
+
+  ::selection {
+    background: #1bd944;
+    color: #140206;
+  }
+}
+
+/* Tavus Editorial Serif */
+.font-editorial {
+  font-family: 'Playfair Display', Georgia, Cambria, serif;
+}
+
+/* Infinite Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* 3D Perspective Card Hover */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+/* Tactile 3D Buttons */
+.btn-tavus-primary {
+  background-color: #140206;
+  color: #f5f3ef;
+  border: 1.5px solid #140206;
+  box-shadow: 3px 3px 0px #1bd944;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-tavus-primary:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #1bd944;
+}
+
+.btn-tavus-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1bd944;
+}
+
+.btn-tavus-neon {
+  background-color: #1bd944;
+  color: #140206;
+  border: 1.5px solid #140206;
+  box-shadow: 3px 3px 0px #140206;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-tavus-neon:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #140206;
+}
+
+.btn-tavus-neon:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #140206;
+}
+
+.card-tavus {
+  background-color: #ffffff;
+  border: 1.5px solid #140206;
+  box-shadow: 4px 4px 0px #140206;
+  border-radius: 16px;
+}
+
+.card-tavus-interactive {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-tavus-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 0px #140206;
 }
 
 /* Custom Sleek Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b1120;
+  background: #eae5de;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
-
-/* Glowing Pulse & Micro-animations */
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.02); }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #140206;
+  border-radius: 4px;
 }

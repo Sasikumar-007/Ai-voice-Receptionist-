@@ -6,13 +6,13 @@ import {
   Calendar, FileText, ChevronRight, X, ArrowUpRight
 } from 'lucide-react';
 
-const STATUS_COLORS: Record<LeadStatus, string> = {
-  NEW: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  CONTACTED: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  QUALIFIED: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-  BOOKED: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  COMPLETED: 'bg-slate-500/10 text-slate-300 border-slate-500/20',
-  LOST: 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+const STATUS_PILLS: Record<LeadStatus, string> = {
+  NEW: 'bg-[#91d0ff] text-[#140206]',
+  CONTACTED: 'bg-[#ffda95] text-[#140206]',
+  QUALIFIED: 'bg-[#fed7ff] text-[#140206]',
+  BOOKED: 'bg-[#1bd944] text-[#140206]',
+  COMPLETED: 'bg-[#d0c9ed] text-[#140206]',
+  LOST: 'bg-[#ffb4c5] text-[#140206]'
 };
 
 export const LeadsPage: React.FC = () => {
@@ -66,41 +66,43 @@ export const LeadsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-[#140206] pb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Users className="w-6 h-6 text-brand-400" />
+          <span className="text-xs font-mono uppercase tracking-widest text-[#856f58] font-bold block mb-1">
+            QUALIFIED PIPELINE // CALL INTAKE
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#140206]">
             Lead Management
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Inbound prospective callers automatically qualified and captured by the AI voice receptionist.
+          <p className="text-xs font-mono text-[#5e5850] mt-1">
+            Prospective clients automatically screened and captured by the AI voice receptionist.
           </p>
         </div>
       </div>
 
       {/* Filters & Search */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border-2 border-[#140206] p-4 rounded-2xl shadow-brutal">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#856f58] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search leads by name, phone, or service..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-850 border border-slate-700/80 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+            className="w-full pl-10 pr-4 py-2 bg-[#fbf8f1] border-2 border-[#140206] rounded-full text-xs text-[#140206] placeholder-[#856f58] focus:outline-none"
           />
         </div>
 
         {/* Status Filters */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
+        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
           {['ALL', 'NEW', 'CONTACTED', 'QUALIFIED', 'BOOKED', 'COMPLETED'].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+              className={`px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider border-2 border-[#140206] transition ${
                 statusFilter === st
-                  ? 'bg-brand-600 text-white'
-                  : 'bg-slate-850 text-slate-400 hover:text-slate-200'
+                  ? 'bg-[#140206] text-white shadow-brutal-sm'
+                  : 'bg-[#fbf8f1] text-[#140206] hover:bg-[#eae5de]'
               }`}
             >
               {st}
@@ -110,22 +112,22 @@ export const LeadsPage: React.FC = () => {
       </div>
 
       {/* Leads Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border-2 border-[#140206] rounded-2xl overflow-hidden shadow-brutal">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-850/60 text-slate-400 text-[11px] uppercase tracking-wider font-semibold border-b border-slate-800">
+          <table className="w-full text-left text-sm font-sans">
+            <thead className="bg-[#fbf8f1] text-[#856f58] text-[11px] font-mono uppercase tracking-wider font-bold border-b-2 border-[#140206]">
               <tr>
-                <th className="px-6 py-3.5">Name</th>
-                <th className="px-6 py-3.5">Phone & Email</th>
+                <th className="px-6 py-3.5">Prospect Name</th>
+                <th className="px-6 py-3.5">Contact Line</th>
                 <th className="px-6 py-3.5">Service Requested</th>
                 <th className="px-6 py-3.5">Est. Value</th>
-                <th className="px-6 py-3.5">Status</th>
-                <th className="px-6 py-3.5">Source</th>
+                <th className="px-6 py-3.5">Pipeline Status</th>
+                <th className="px-6 py-3.5">Channel</th>
                 <th className="px-6 py-3.5">Date</th>
-                <th className="px-6 py-3.5 text-right">Action</th>
+                <th className="px-6 py-3.5 text-right">Detail</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-200">
+            <tbody className="divide-y border-[#140206] text-[#140206]">
               {filtered.map((lead) => (
                 <tr
                   key={lead.id}
@@ -133,33 +135,33 @@ export const LeadsPage: React.FC = () => {
                     setSelectedLead(lead);
                     setNewStatus(lead.status);
                   }}
-                  className="hover:bg-slate-800/40 cursor-pointer transition"
+                  className="hover:bg-[#f3eee7] cursor-pointer transition"
                 >
-                  <td className="px-6 py-4 font-semibold text-white">{lead.name}</td>
+                  <td className="px-6 py-4 font-serif font-bold text-base text-[#140206]">{lead.name}</td>
                   <td className="px-6 py-4">
-                    <div className="text-xs text-slate-200">{lead.phone}</div>
-                    <div className="text-[11px] text-slate-500">{lead.email || 'No email provided'}</div>
+                    <div className="text-xs font-mono font-bold text-[#140206]">{lead.phone}</div>
+                    <div className="text-[11px] font-mono text-[#856f58]">{lead.email || 'No email provided'}</div>
                   </td>
-                  <td className="px-6 py-4 text-xs font-medium text-slate-300">
+                  <td className="px-6 py-4 text-xs font-sans text-[#140206]">
                     {lead.service_requested || 'General Inquiry'}
                   </td>
-                  <td className="px-6 py-4 text-xs font-bold text-emerald-400">
+                  <td className="px-6 py-4 text-xs font-mono font-extrabold text-[#0cb531]">
                     ${((lead.estimated_value_cents || 0) / 100).toFixed(2)}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold border ${STATUS_COLORS[lead.status]}`}>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-bold border border-[#140206] ${STATUS_PILLS[lead.status]}`}>
                       {lead.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-xs text-slate-400">
+                  <td className="px-6 py-4 text-xs font-mono text-[#5e5850]">
                     {lead.source?.replace('_', ' ')}
                   </td>
-                  <td className="px-6 py-4 text-xs text-slate-400">
+                  <td className="px-6 py-4 text-xs font-mono text-[#5e5850]">
                     {new Date(lead.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <span className="text-xs text-brand-400 hover:text-brand-300 font-semibold inline-flex items-center gap-1">
-                      View Profile <ChevronRight className="w-3.5 h-3.5" />
+                    <span className="text-xs font-mono uppercase font-bold text-[#140206] hover:text-[#1bd944] inline-flex items-center gap-1 underline underline-offset-4">
+                      Profile <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </td>
                 </tr>
@@ -171,82 +173,83 @@ export const LeadsPage: React.FC = () => {
 
       {/* Lead Profile Drawer */}
       {selectedLead && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-end">
-          <div className="w-full max-w-lg bg-slate-900 border-l border-slate-800 h-full p-6 overflow-y-auto space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 z-50 bg-[#140206]/50 backdrop-blur-sm flex justify-end">
+          <div className="w-full max-w-lg bg-white border-l-2 border-[#140206] h-full p-6 overflow-y-auto space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b-2 border-[#140206] pb-4">
               <div>
-                <h3 className="text-lg font-bold text-white">{selectedLead.name}</h3>
-                <span className={`inline-flex items-center px-2 py-0.5 mt-1 rounded text-xs font-semibold border ${STATUS_COLORS[selectedLead.status]}`}>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#856f58] font-bold">LEAD DOSSIER</span>
+                <h3 className="font-serif text-2xl font-normal text-[#140206]">{selectedLead.name}</h3>
+                <span className={`inline-flex items-center px-2.5 py-0.5 mt-1 rounded-full text-xs font-mono uppercase font-bold border border-[#140206] ${STATUS_PILLS[selectedLead.status]}`}>
                   {selectedLead.status}
                 </span>
               </div>
               <button
                 onClick={() => setSelectedLead(null)}
-                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800"
+                className="p-2 border-2 border-[#140206] hover:bg-[#ffb4c5] rounded-full transition"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Contact Details */}
-            <div className="space-y-3 bg-slate-850 p-4 rounded-xl border border-slate-800">
-              <div className="text-xs uppercase font-bold text-slate-400 tracking-wider">Contact Details</div>
-              <div className="flex items-center gap-2 text-sm text-slate-200">
-                <Phone className="w-4 h-4 text-brand-400" />
+            <div className="space-y-3 bg-[#fbf8f1] p-4 rounded-2xl border-2 border-[#140206] shadow-brutal-sm">
+              <div className="text-[10px] font-mono uppercase font-bold text-[#856f58] tracking-wider">Contact Telemetry</div>
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#140206]">
+                <Phone className="w-4 h-4 text-[#ff6183]" />
                 <span>{selectedLead.phone}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-slate-200">
-                <Mail className="w-4 h-4 text-brand-400" />
+              <div className="flex items-center gap-2 text-xs font-mono text-[#140206]">
+                <Mail className="w-4 h-4 text-[#ff6183]" />
                 <span>{selectedLead.email || 'None'}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-slate-200">
-                <Calendar className="w-4 h-4 text-brand-400" />
-                <span>Created: {new Date(selectedLead.created_at).toLocaleString()}</span>
+              <div className="flex items-center gap-2 text-xs font-mono text-[#5e5850]">
+                <Calendar className="w-4 h-4 text-[#ff6183]" />
+                <span>Timestamp: {new Date(selectedLead.created_at).toLocaleString()}</span>
               </div>
             </div>
 
             {/* Journey Timeline */}
             <div className="space-y-3">
-              <div className="text-xs uppercase font-bold text-slate-400 tracking-wider">Customer Journey Timeline</div>
-              <div className="relative pl-6 space-y-4 border-l border-slate-800">
+              <div className="text-[10px] font-mono uppercase font-bold text-[#856f58] tracking-wider">Customer Journey Lifecycle</div>
+              <div className="relative pl-6 space-y-4 border-l-2 border-[#140206]">
                 <div className="relative">
-                  <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-                  <div className="text-xs font-bold text-white">INBOUND CALL RECEIVED</div>
-                  <div className="text-[11px] text-slate-400">Caller contacted SwiftFix Plumbing phone line</div>
+                  <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[#140206] border-2 border-white"></span>
+                  <div className="text-xs font-mono font-bold text-[#140206]">1. INBOUND CALL RECEIVED</div>
+                  <div className="text-xs font-sans text-[#5e5850]">Caller connected through SwiftFix PSTN trunk</div>
                 </div>
                 <div className="relative">
-                  <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                  <div className="text-xs font-bold text-white">LEAD CREATED BY AI</div>
-                  <div className="text-[11px] text-slate-400">Sarah identified service request: {selectedLead.service_requested}</div>
+                  <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[#1bd944] border-2 border-[#140206]"></span>
+                  <div className="text-xs font-mono font-bold text-[#140206]">2. QUALIFIED BY AI AGENT</div>
+                  <div className="text-xs font-sans text-[#5e5850]">Sarah extracted issue: {selectedLead.service_requested}</div>
                 </div>
                 <div className="relative">
-                  <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full bg-violet-500"></span>
-                  <div className="text-xs font-bold text-white">APPOINTMENT BOOKED</div>
-                  <div className="text-[11px] text-slate-400">Google Calendar reservation confirmed</div>
+                  <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[#fed7ff] border-2 border-[#140206]"></span>
+                  <div className="text-xs font-mono font-bold text-[#140206]">3. CALENDAR RESERVATION</div>
+                  <div className="text-xs font-sans text-[#5e5850]">Google Calendar availability committed</div>
                 </div>
                 <div className="relative">
-                  <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                  <div className="text-xs font-bold text-white">CONFIRMATIONS DISPATCHED</div>
-                  <div className="text-[11px] text-slate-400">Email sent via Resend & WhatsApp notification delivered</div>
+                  <span className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[#ffb4c5] border-2 border-[#140206]"></span>
+                  <div className="text-xs font-mono font-bold text-[#140206]">4. MULTI-CHANNEL DISPATCH</div>
+                  <div className="text-xs font-sans text-[#5e5850]">Confirmation sent via Resend & WhatsApp API</div>
                 </div>
               </div>
             </div>
 
             {/* Notes */}
             <div className="space-y-2">
-              <div className="text-xs uppercase font-bold text-slate-400 tracking-wider">Conversation Notes</div>
-              <div className="p-3 bg-slate-850 rounded-xl border border-slate-800 text-xs text-slate-300 whitespace-pre-line leading-relaxed">
+              <div className="text-[10px] font-mono uppercase font-bold text-[#856f58] tracking-wider">Acoustic Call Notes</div>
+              <div className="p-3 bg-[#fbf8f1] rounded-2xl border-2 border-[#140206] text-xs font-sans text-[#140206] whitespace-pre-line leading-relaxed">
                 {selectedLead.notes || 'No extra notes recorded.'}
               </div>
             </div>
 
             {/* Status & Update Actions */}
-            <div className="space-y-3 pt-4 border-t border-slate-800">
-              <label className="block text-xs font-medium text-slate-400">Update Lead Pipeline Status</label>
+            <div className="space-y-3 pt-4 border-t-2 border-[#140206]">
+              <label className="block text-xs font-mono uppercase font-bold text-[#140206]">Update Pipeline Stage</label>
               <select
                 value={newStatus}
                 onChange={(e) => setNewStatus(e.target.value as LeadStatus)}
-                className="w-full p-2.5 bg-slate-850 border border-slate-700 rounded-xl text-xs text-white"
+                className="w-full p-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs font-mono font-bold text-[#140206]"
               >
                 <option value="NEW">NEW</option>
                 <option value="CONTACTED">CONTACTED</option>
@@ -258,17 +261,17 @@ export const LeadsPage: React.FC = () => {
 
               <textarea
                 rows={2}
-                placeholder="Add internal follow-up note..."
+                placeholder="Log internal follow-up comment..."
                 value={updateNote}
                 onChange={(e) => setUpdateNote(e.target.value)}
-                className="w-full p-2.5 bg-slate-850 border border-slate-700 rounded-xl text-xs text-white"
+                className="w-full p-2.5 bg-[#fbf8f1] border-2 border-[#140206] rounded-xl text-xs font-sans text-[#140206]"
               />
 
               <button
                 onClick={handleUpdateStatus}
-                className="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition"
+                className="w-full py-3 bg-[#1bd944] hover:bg-[#3bdb5d] text-[#140206] rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
               >
-                Save Changes
+                Save Record Changes
               </button>
             </div>
           </div>
