@@ -27,7 +27,8 @@ yarn-error.log*
 .vscode/
 .idea/
 .DS_Store
-Thumbs.db
+# Antigravity agents
+.agents/
 
 # Coverage & Tests
 coverage/

@@ -2,10 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { apiRequest } from '../lib/api';
 import {
   Phone, PhoneOff, Mic, MicOff, Sparkles, User, Bot, AlertTriangle,
-  CheckCircle, ArrowRight, Play, RefreshCw, Volume2, Cpu, Radio
+  CheckCircle, ArrowRight, Play, RefreshCw, Volume2, Cpu, Radio, Layers
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { TavusHumanAvatar3D } from '../components/Three/TavusHumanAvatar3D';
+import { RetroPhoneHardware3D } from '../components/Three/RetroPhoneHardware3D';
 import { HumanComputingCore3D } from '../components/Three/HumanComputingCore3D';
+import { SpectrumRibbon3D } from '../components/Three/SpectrumRibbon3D';
+import { TiltCard3D } from '../components/Three/TiltCard3D';
 
 interface ChatMessage {
   role: 'system' | 'assistant' | 'user' | 'tool';
@@ -21,6 +25,7 @@ export const VoiceStudioPage: React.FC = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [lastAction, setLastAction] = useState<string | null>(null);
+  const [active3DMode, setActive3DMode] = useState<'avatar' | 'phone' | 'core'>('avatar');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
 
@@ -131,19 +136,28 @@ export const VoiceStudioPage: React.FC = () => {
     }
   };
 
+  const handleDialDTMF = (digit: string) => {
+    if (!inCall) {
+      handleStartCall();
+    }
+  };
+
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-[#140206] pb-6">
         <div>
           <span className="text-xs font-mono uppercase tracking-widest text-[#ff6183] font-bold block mb-1">
-            LABORATORY // INTERACTIVE 3D VOICE
+            LABORATORY // INTERACTIVE 3D CVI HUMAN COMPUTING
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#140206] flex items-center gap-2">
+          <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#140206] flex items-center gap-3">
+            <span className="w-10 h-10 rounded-full bg-[#140206] text-[#1bd944] flex items-center justify-center border-2 border-[#140206] shadow-brutal-sm">
+              <Radio className="w-5 h-5" />
+            </span>
             3D Human Computing Voice Studio
           </h1>
           <p className="text-xs font-mono text-[#5e5850] mt-1">
-            Real-time acoustic neural turn-taking with live 3D waveform displacement.
+            Real-time biometric gaze tracking, phoneme articulation, and sub-second acoustic turn-taking.
           </p>
         </div>
 
@@ -153,7 +167,7 @@ export const VoiceStudioPage: React.FC = () => {
             className="px-6 py-3 bg-[#ff6183] hover:bg-[#ffb4c5] text-[#140206] rounded-full text-xs font-mono uppercase tracking-wider font-extrabold border-2 border-[#140206] shadow-brutal transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-2"
           >
             <PhoneOff className="w-4 h-4" />
-            Terminate Call
+            Terminate Active Call
           </button>
         ) : (
           <button
@@ -161,211 +175,234 @@ export const VoiceStudioPage: React.FC = () => {
             className="px-6 py-3 bg-[#1bd944] hover:bg-[#3bdb5d] text-[#140206] rounded-full text-xs font-mono uppercase tracking-wider font-extrabold border-2 border-[#140206] shadow-brutal transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-2"
           >
             <Phone className="w-4 h-4" />
-            Connect 3D Voice Call
+            Initiate Voice Stream
           </button>
         )}
       </div>
 
-      {/* Main Studio Arena */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left 7 Cols: Live Call Conversation */}
-        <div className="lg:col-span-7 bg-white border-2 border-[#140206] rounded-3xl flex flex-col h-[650px] shadow-brutal overflow-hidden">
-          {/* Header */}
-          <div className="p-4 bg-[#f5f3ef] border-b-2 border-[#140206] flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#140206] border-2 border-[#140206] flex items-center justify-center text-[#1bd944]">
-                <Cpu className="w-4 h-4" />
+        {/* Left Column: Interactive 3D Visualizer & Hardware Stage */}
+        <div className="lg:col-span-6 space-y-4">
+          <div className="bg-white border-2 border-[#140206] rounded-3xl p-6 shadow-brutal-lg relative overflow-hidden">
+            {/* Top Bar with 3D Mode Switcher */}
+            <div className="flex flex-wrap items-center justify-between border-b-2 border-[#140206] pb-3 gap-2">
+              <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#140206]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#1bd944] animate-ping"></span>
+                <span>SARAH_v2.4 // 3D CVI</span>
               </div>
-              <div>
-                <div className="font-serif font-bold text-sm text-[#140206]">Sarah • Neural Voice Agent</div>
-                <div className="text-[11px] font-mono text-[#856f58]">
-                  {inCall ? (
-                    <span className="text-[#0cb531] font-bold flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-[#1bd944] animate-ping"></span> PSTN STREAMING
-                    </span>
-                  ) : (
-                    'IDLE / DISCONNECTED'
-                  )}
-                </div>
+
+              {/* 3D Mode Selector Pills */}
+              <div className="flex items-center gap-1.5 p-1 bg-[#fbf8f1] border-2 border-[#140206] rounded-full text-[10px] font-mono font-bold">
+                <button
+                  onClick={() => setActive3DMode('avatar')}
+                  className={`px-3 py-1 rounded-full transition ${
+                    active3DMode === 'avatar'
+                      ? 'bg-[#140206] text-[#1bd944]'
+                      : 'text-[#5e5850] hover:text-[#140206]'
+                  }`}
+                >
+                  3D AVATAR
+                </button>
+                <button
+                  onClick={() => setActive3DMode('phone')}
+                  className={`px-3 py-1 rounded-full transition ${
+                    active3DMode === 'phone'
+                      ? 'bg-[#140206] text-[#1bd944]'
+                      : 'text-[#5e5850] hover:text-[#140206]'
+                  }`}
+                >
+                  3D TERMINAL
+                </button>
+                <button
+                  onClick={() => setActive3DMode('core')}
+                  className={`px-3 py-1 rounded-full transition ${
+                    active3DMode === 'core'
+                      ? 'bg-[#140206] text-[#1bd944]'
+                      : 'text-[#5e5850] hover:text-[#140206]'
+                  }`}
+                >
+                  3D QUANTUM CORE
+                </button>
               </div>
             </div>
 
-            {isSpeaking && (
-              <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold text-[#140206] px-3 py-1 bg-[#1bd944] border border-[#140206] rounded-full shadow-brutal-sm animate-pulse">
-                <Volume2 className="w-3.5 h-3.5" />
-                SARAH SPEAKING...
-              </div>
-            )}
-          </div>
+            {/* 3D WebGL Canvas Display */}
+            <div className="relative min-h-[380px] flex items-center justify-center py-2 bg-[#fbf8f1] rounded-2xl border-2 border-[#140206] my-4 overflow-hidden">
+              {active3DMode === 'avatar' && (
+                <TavusHumanAvatar3D size={380} isSpeaking={isSpeaking} interactive={true} showHUD={true} />
+              )}
+              {active3DMode === 'phone' && (
+                <RetroPhoneHardware3D size={360} isActive={inCall} onDial={handleDialDTMF} />
+              )}
+              {active3DMode === 'core' && (
+                <HumanComputingCore3D size={320} isSpeaking={isSpeaking} />
+              )}
+            </div>
 
-          {/* Messages Feed */}
-          <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-[#fbf8f1]">
-            {!inCall ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                <div className="w-16 h-16 rounded-full bg-white border-2 border-[#140206] shadow-brutal flex items-center justify-center text-[#140206] mb-4">
-                  <Phone className="w-7 h-7 text-[#1bd944]" />
-                </div>
-                <h3 className="font-serif text-2xl font-normal text-[#140206]">Awaiting Inbound Call</h3>
-                <p className="text-xs font-mono text-[#5e5850] max-w-sm mt-1 mb-6">
-                  Initiate a simulated customer session with Sarah for SwiftFix Plumbing.
-                </p>
-                <button
-                  onClick={handleStartCall}
-                  className="px-6 py-3 bg-[#1bd944] hover:bg-[#3bdb5d] text-[#140206] rounded-full text-xs font-mono uppercase tracking-wider font-extrabold border-2 border-[#140206] shadow-brutal transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-2"
-                >
-                  <Phone className="w-4 h-4" />
-                  Answer Call Line
-                </button>
-              </div>
-            ) : (
-              <>
-                {messages.map((m, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex items-start gap-3 ${
-                      m.role === 'user' ? 'flex-row-reverse' : 'flex-row'
-                    }`}
-                  >
-                    <div
-                      className={`w-8 h-8 rounded-full border-2 border-[#140206] flex items-center justify-center shrink-0 ${
-                        m.role === 'user'
-                          ? 'bg-[#140206] text-white'
-                          : 'bg-[#1bd944] text-[#140206]'
-                      }`}
-                    >
-                      {m.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                    </div>
-                    <div
-                      className={`max-w-[78%] rounded-2xl px-4 py-3 text-xs leading-relaxed border-2 border-[#140206] shadow-brutal-sm ${
-                        m.role === 'user'
-                          ? 'bg-[#140206] text-[#f5f3ef] rounded-tr-none'
-                          : 'bg-white text-[#140206] rounded-tl-none font-sans'
-                      }`}
-                    >
-                      <div className="text-[10px] font-mono font-bold uppercase tracking-wider mb-1 opacity-70">
-                        {m.role === 'user' ? 'Caller' : 'Sarah (AI)'}
-                      </div>
-                      <div className="text-sm font-sans">{m.content}</div>
-                    </div>
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#1bd944] border-2 border-[#140206] text-[#140206] flex items-center justify-center">
-                      <Cpu className="w-4 h-4" />
-                    </div>
-                    <div className="bg-white border-2 border-[#140206] rounded-2xl rounded-tl-none px-4 py-2.5 shadow-brutal-sm flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-[#140206]">Reasoning with Gemini...</span>
-                      <span className="w-2 h-2 rounded-full bg-[#1bd944] animate-bounce"></span>
-                    </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
-              </>
-            )}
-          </div>
+            {/* 3D Audio Frequency Ribbon */}
+            <div className="border-2 border-[#140206] rounded-2xl overflow-hidden bg-[#140206]">
+              <SpectrumRibbon3D isActive={inCall || isSpeaking || isListening} height={100} />
+            </div>
 
-          {/* Input Controls */}
-          {inCall && (
-            <div className="p-4 bg-white border-t-2 border-[#140206]">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSendTurn(inputText);
-                }}
-                className="flex items-center gap-2"
-              >
+            {/* Control Bar: Mic, Quick Simulation */}
+            <div className="mt-4 pt-4 border-t-2 border-[#140206]/10 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
                 <button
-                  type="button"
+                  disabled={!inCall}
                   onClick={toggleListening}
-                  className={`p-3 rounded-full border-2 border-[#140206] transition shadow-brutal-sm ${
+                  className={`px-4 py-2 rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm transition flex items-center gap-2 ${
                     isListening
                       ? 'bg-[#ff6183] text-[#140206] animate-pulse'
-                      : 'bg-[#f5f3ef] hover:bg-[#eae5de] text-[#140206]'
+                      : 'bg-white hover:bg-[#fbf8f1] text-[#140206] disabled:opacity-40'
                   }`}
-                  title={isListening ? 'Stop Listening' : 'Speak into Microphone'}
                 >
-                  {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  {isListening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
+                  <span>{isListening ? 'Listening to mic...' : 'Speak via Mic'}</span>
                 </button>
 
-                <input
-                  type="text"
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  placeholder={isListening ? 'Acoustic mic active: speak now...' : 'Type caller speech or use microphone...'}
-                  className="flex-1 bg-[#f3eee7] border-2 border-[#140206] rounded-full px-4 py-2.5 text-xs font-sans text-[#140206] placeholder-[#856f58] focus:outline-none"
-                />
+                {isSpeaking && (
+                  <span className="px-3 py-1 rounded-full bg-[#1bd944] text-[#140206] border-2 border-[#140206] shadow-brutal-sm text-[10px] font-mono font-bold uppercase animate-bounce">
+                    ● Speech Synthesis
+                  </span>
+                )}
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={!inputText.trim() || isLoading}
-                  className="px-5 py-2.5 bg-[#140206] hover:bg-[#1bd944] hover:text-[#140206] text-white rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm transition disabled:opacity-40"
-                >
-                  Dispatch
-                </button>
-              </form>
+              <div className="text-[11px] font-mono text-[#856f58]">
+                Mode: <strong className="text-[#140206]">Full-Duplex Audio</strong>
+              </div>
             </div>
-          )}
+          </div>
+
+          {/* Quick Caller Prompts */}
+          <div className="bg-white border-2 border-[#140206] rounded-3xl p-5 shadow-brutal space-y-3">
+            <span className="text-[11px] font-mono uppercase font-bold text-[#856f58] block">
+              Sample Voice Queries (Click to Simulate Inbound Speech)
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {[
+                'My basement pipe burst and is leaking water! Can you send a plumber today?',
+                'What are your diagnostic fees and hourly service rates?',
+                'Can I book a drain cleaning appointment for Friday at 10 AM?',
+                'I need to speak directly with the business owner right now.'
+              ].map((q, idx) => (
+                <button
+                  key={idx}
+                  disabled={!inCall || isLoading}
+                  onClick={() => handleSendTurn(q)}
+                  className="px-3 py-1.5 bg-[#fbf8f1] hover:bg-white text-[#140206] border-2 border-[#140206] rounded-xl text-xs font-sans text-left disabled:opacity-40 transition shadow-brutal-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
+                >
+                  "{q}"
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Right 5 Cols: 3D Core Visualizer & Test Scenarios */}
-        <div className="lg:col-span-5 space-y-6">
-          {/* 3D Human Computing Core Box */}
-          <div className="bg-white border-2 border-[#140206] rounded-3xl p-6 shadow-brutal flex flex-col items-center text-center">
-            <div className="w-full flex items-center justify-between border-b-2 border-[#140206] pb-3 mb-2 font-mono text-[11px]">
-              <div className="flex items-center gap-1.5 font-bold text-[#140206]">
-                <Radio className="w-3.5 h-3.5 text-[#1bd944]" />
-                <span>3D ACOUSTIC CORE</span>
-              </div>
-              <span className="text-[#ff6183] font-bold">THREE.JS WEBGL</span>
-            </div>
-
-            <HumanComputingCore3D size={240} isSpeaking={isSpeaking} />
-
-            <div className="w-full pt-3 border-t-2 border-[#140206] flex items-center justify-between text-[11px] font-mono">
-              <span className="text-[#856f58]">LAST ACTION:</span>
-              <span className="font-bold text-[#140206] bg-[#1bd944]/30 px-2 py-0.5 rounded border border-[#140206]">
-                {lastAction || 'IDLE_LISTENING'}
+        {/* Right Column: Live Telemetry & Conversation Transcript */}
+        <div className="lg:col-span-6 flex flex-col h-[740px] bg-white border-2 border-[#140206] rounded-3xl shadow-brutal-lg overflow-hidden">
+          {/* Header */}
+          <div className="p-4 border-b-2 border-[#140206] bg-[#fbf8f1] flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className={`w-2.5 h-2.5 rounded-full ${inCall ? 'bg-[#1bd944]' : 'bg-[#856f58]'}`} />
+              <span className="font-mono text-xs uppercase font-bold text-[#140206]">
+                {inCall ? 'CALL IN PROGRESS // 00:01:24' : 'TELEPHONY STANDBY'}
               </span>
             </div>
+            <span className="text-[10px] font-mono text-[#856f58] uppercase">
+              TENANT: {business?.name || 'SwiftFix Plumbing'}
+            </span>
           </div>
 
-          {/* Master Prompt Scenarios */}
-          <div className="bg-white border-2 border-[#140206] rounded-3xl p-6 shadow-brutal space-y-3">
-            <div className="border-b-2 border-[#140206] pb-3">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#856f58] font-bold">MACRO PRESETS</span>
-              <h3 className="font-serif text-xl font-normal text-[#140206]">1-Click Evaluation Scenarios</h3>
+          {/* Action Trigger Banner */}
+          {lastAction && (
+            <div className="p-3 bg-[#ade2d8] border-b-2 border-[#140206] text-xs font-mono font-bold text-[#140206] flex items-center gap-2 animate-fadeIn">
+              <CheckCircle className="w-4 h-4 text-[#140206]" />
+              <span>Tool Executed: {lastAction}</span>
             </div>
+          )}
 
-            <div className="space-y-2">
-              <button
-                disabled={!inCall}
-                onClick={() => handleSendTurn("My kitchen sink is leaking and I need someone tomorrow.")}
-                className="w-full text-left p-3 rounded-2xl bg-[#fbf8f1] hover:bg-[#1bd944]/20 border-2 border-[#140206] shadow-brutal-sm transition disabled:opacity-40"
-              >
-                <div className="text-[11px] font-mono font-bold text-[#fd7f00]">SCENARIO A — INQUIRY</div>
-                <div className="text-xs font-sans text-[#140206] mt-0.5 font-medium">"My kitchen sink is leaking and I need someone tomorrow."</div>
-              </button>
+          {/* Transcript Scroll Area */}
+          <div className="flex-1 p-6 overflow-y-auto space-y-4 font-sans text-xs">
+            {messages.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center text-[#856f58] space-y-3">
+                <div className="w-12 h-12 rounded-full bg-[#fbf8f1] border-2 border-[#140206] shadow-brutal flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-[#140206]" />
+                </div>
+                <p className="font-mono text-xs font-bold text-[#140206]">No Active Telephony Stream</p>
+                <p className="text-xs text-[#5e5850] max-w-xs font-sans">
+                  Click <strong>"Initiate Voice Stream"</strong> to start testing Sarah with real-time speech and 3D visual articulation.
+                </p>
+              </div>
+            ) : (
+              messages.map((m, idx) => (
+                <div
+                  key={idx}
+                  className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  {m.role === 'assistant' && (
+                    <div className="w-8 h-8 rounded-full bg-[#140206] text-[#1bd944] border-2 border-[#140206] shadow-brutal-sm flex items-center justify-center shrink-0 text-xs font-serif font-bold">
+                      S
+                    </div>
+                  )}
 
-              <button
-                disabled={!inCall}
-                onClick={() => handleSendTurn("2:00 PM works great. My name is John Smith and my address is 124 Elm Street.")}
-                className="w-full text-left p-3 rounded-2xl bg-[#fbf8f1] hover:bg-[#1bd944]/20 border-2 border-[#140206] shadow-brutal-sm transition disabled:opacity-40"
-              >
-                <div className="text-[11px] font-mono font-bold text-[#0cb531]">SCENARIO B — BOOKING & DETAILS</div>
-                <div className="text-xs font-sans text-[#140206] mt-0.5 font-medium">"2:00 PM works great. My name is John Smith and my address is 124 Elm Street."</div>
-              </button>
+                  <div
+                    className={`max-w-[80%] p-4 rounded-2xl border-2 border-[#140206] shadow-brutal-sm leading-relaxed ${
+                      m.role === 'user'
+                        ? 'bg-[#140206] text-[#f5f3ef]'
+                        : 'bg-[#fbf8f1] text-[#140206]'
+                    }`}
+                  >
+                    <div className="text-[10px] font-mono uppercase font-bold mb-1 opacity-70">
+                      {m.role === 'user' ? 'Caller (Customer)' : 'Sarah (AI Voice Receptionist)'}
+                    </div>
+                    {m.content}
+                  </div>
 
-              <button
-                disabled={!inCall}
-                onClick={() => handleSendTurn("Can you transfer me to a human manager right away?")}
-                className="w-full text-left p-3 rounded-2xl bg-[#fbf8f1] hover:bg-[#ff6183]/20 border-2 border-[#140206] shadow-brutal-sm transition disabled:opacity-40"
-              >
-                <div className="text-[11px] font-mono font-bold text-[#ff6183]">SCENARIO C — HUMAN HANDOFF</div>
-                <div className="text-xs font-sans text-[#140206] mt-0.5 font-medium">"Can you transfer me to a human manager right away?"</div>
-              </button>
-            </div>
+                  {m.role === 'user' && (
+                    <div className="w-8 h-8 rounded-full bg-[#d5997d] text-[#140206] border-2 border-[#140206] shadow-brutal-sm flex items-center justify-center shrink-0 text-xs font-mono font-bold">
+                      U
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+
+            {isLoading && (
+              <div className="flex gap-3 items-center text-xs font-mono text-[#5e5850]">
+                <div className="w-8 h-8 rounded-full bg-[#140206] text-[#1bd944] border-2 border-[#140206] flex items-center justify-center animate-spin">
+                  <RefreshCw className="w-4 h-4" />
+                </div>
+                <span>Sarah is analyzing intent & checking tools...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
+
+          {/* Prompt Input Form */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendTurn(inputText);
+            }}
+            className="p-4 border-t-2 border-[#140206] bg-[#fbf8f1] flex items-center gap-2"
+          >
+            <input
+              type="text"
+              disabled={!inCall || isLoading}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder={inCall ? "Type caller message or click 'Speak via Mic'..." : "Start call to enable input..."}
+              className="flex-1 px-4 py-2.5 bg-white border-2 border-[#140206] rounded-full text-xs font-mono text-[#140206] focus:outline-none disabled:opacity-50"
+            />
+            <button
+              type="submit"
+              disabled={!inCall || !inputText.trim() || isLoading}
+              className="px-5 py-2.5 bg-[#140206] text-[#1bd944] hover:bg-[#1bd944] hover:text-[#140206] rounded-full text-xs font-mono uppercase font-bold border-2 border-[#140206] shadow-brutal-sm disabled:opacity-40 transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-1.5"
+            >
+              <span>Transmit</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </form>
         </div>
       </div>
     </div>
